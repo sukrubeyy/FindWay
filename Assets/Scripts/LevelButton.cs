@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,8 +18,20 @@ public class LevelButton : MonoBehaviour
         {
                 if (button.IsInteractable())
                 {
-                    SceneManager.LoadScene(SceneIndex);
+                    MenuManager.Instance.SceneLoadingMenu.SetActive(true);
+                    StartCoroutine(LoadLevel(SceneIndex));
                 }
         });
+    }
+
+    private IEnumerator LoadLevel(int index)
+    {
+        AsyncOperation operation =  SceneManager.LoadSceneAsync(index);
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            MenuManager.Instance.loadingBar.value = progress;
+            yield return null;
+        }
     }
 }

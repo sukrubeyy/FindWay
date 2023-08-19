@@ -16,21 +16,25 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private GameObject AccountMenu;
     [SerializeField] private GameObject SettingsMenu;
     [SerializeField] private GameObject UpperAndBottomMenu;
+    public GameObject SceneLoadingMenu;
+    public Slider loadingBar;
+
     private GameObject activeMenu;
     private GameObject previousActiveMenu;
 
 
-    [Header("Menu Buttons")] 
-    [SerializeField] private Button LevelsMenuButton;
+    [Header("Menu Buttons")] [SerializeField]
+    private Button LevelsMenuButton;
+
     [SerializeField] private Button HomeMenuuButton;
     [SerializeField] private Button AccountMenuButton;
     [SerializeField] private Button SettingsMenuButton;
-   
-    [Header("Account Menu Items")] 
-    [SerializeField] private Button SaveButton;
+
+    [Header("Account Menu Items")] [SerializeField]
+    private Button SaveButton;
+
     [SerializeField] private Button ResetAllDataButton;
     [SerializeField] private TMP_InputField NickNameInputField;
-    
 
 
     [Header("Prefabs")] [SerializeField] private GameObject levelButtonPrefab;
@@ -43,30 +47,15 @@ public class MenuManager : Singleton<MenuManager>
         foreach (var sceneIndex in GetAllLevelSceneIndex())
             Instantiate(levelButtonPrefab, LevelsMenu.transform).GetComponent<LevelButton>().Initialize(sceneIndex);
 
-        SaveButton.onClick.AddListener(() =>
-        {
-            
-        });
-        
-        ResetAllDataButton.onClick.AddListener(() =>
-        {
-            
-        });
+        SaveButton.onClick.AddListener(() => { });
 
-        LevelsMenuButton.onClick.AddListener(() =>
-        {
-                ChangeMenu(LevelsMenu);
-        });
+        ResetAllDataButton.onClick.AddListener(() => { });
 
-        HomeMenuuButton.onClick.AddListener(() =>
-        {
-                ChangeMenu(HomeMenu);
-        });
+        LevelsMenuButton.onClick.AddListener(() => { ChangeMenu(LevelsMenu); });
 
-        AccountMenuButton.onClick.AddListener(() =>
-        {
-                ChangeMenu(AccountMenu);
-        });
+        HomeMenuuButton.onClick.AddListener(() => { ChangeMenu(HomeMenu); });
+
+        AccountMenuButton.onClick.AddListener(() => { ChangeMenu(AccountMenu); });
 
         SettingsMenuButton.onClick.AddListener(() =>
         {
@@ -77,13 +66,14 @@ public class MenuManager : Singleton<MenuManager>
         });
     }
 
-    private void ChangeMenu(GameObject menu)
+    public void ChangeMenu(GameObject menu)
     {
         previousActiveMenu = activeMenu;
         activeMenu.SetActive(false);
         activeMenu = menu;
         activeMenu.SetActive(true);
     }
+
     private List<int> GetAllLevelSceneIndex()
     {
         List<int> sceneList = new List<int>();
