@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "510835196563",
+    "firebase_url": "https://findway-b483e-default-rtdb.firebaseio.com",
+    "project_id": "findway-b483e",
+    "storage_bucket": "findway-b483e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510835196563:android:20abe439ea810686b50366",
+        "android_client_info": {
+          "package_name": "com.Hybrids.FindWay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510835196563-5rg2gtof12pf1drt7anjmogvupb9vhcd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsDo0FPVuBb-r2VCsRL0-IPquOAsvrXDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510835196563-5rg2gtof12pf1drt7anjmogvupb9vhcd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
