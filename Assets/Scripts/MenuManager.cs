@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor;
+using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuManager : Singleton<MenuManager>
@@ -16,20 +13,29 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private GameObject AccountMenu;
     [SerializeField] private GameObject SettingsMenu;
     [SerializeField] private GameObject UpperAndBottomMenu;
+    [SerializeField] private GameObject DailyBonusMenu;
     public GameObject SceneLoadingMenu;
     public Slider loadingBar;
 
     private GameObject activeMenu;
     private GameObject previousActiveMenu;
 
-
+    public TMP_Text iconText;
     [Header("Menu Buttons")] [SerializeField]
     private Button LevelsMenuButton;
 
+    [SerializeField] private Button claimbCoinButton;
+    [SerializeField] private Button rewardedCoinButton;
     [SerializeField] private Button HomeMenuuButton;
     [SerializeField] private Button AccountMenuButton;
     [SerializeField] private Button SettingsMenuButton;
-
+    
+    [Header("Player Settings")]
+    
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Toggle isVibrate;
+    [SerializeField] private Toggle isAdmob;
+    
     [Header("Account Menu Items")] [SerializeField]
     private Button SaveButton;
 
@@ -43,13 +49,38 @@ public class MenuManager : Singleton<MenuManager>
     {
         activeMenu = HomeMenu;
         activeMenu.SetActive(true);
+        volumeSlider.value = DataManager.Instance.userInformation.GetVolume();
+        iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
 
-        foreach (var sceneIndex in GetAllLevelSceneIndex())
-            Instantiate(levelButtonPrefab, LevelsMenu.transform).GetComponent<LevelButton>().Initialize(sceneIndex);
+        ListLevel();
 
-        SaveButton.onClick.AddListener(() => { });
+        SaveButton.onClick.AddListener(() =>
+        {
+            
+        });
+        
+        volumeSlider.onValueChanged.AddListener((sliderValue) =>
+        {
+            DataManager.Instance.userInformation.SetVolume(sliderValue);
+        });
 
-        ResetAllDataButton.onClick.AddListener(() => { });
+        ResetAllDataButton.onClick.AddListener(() =>
+        {
+         DataManager.Instance.ResetPlayerData();
+         iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+         ListLevel();
+        });
+        
+        claimbCoinButton.onClick.AddListener(() =>
+        {
+            GetDailyBonus();
+            ChangeMenu(HomeMenu);
+        });
+        rewardedCoinButton.onClick.AddListener(() =>
+        {
+            GetDailyBonus(1000);
+            ChangeMenu(HomeMenu);
+        });
 
         LevelsMenuButton.onClick.AddListener(() => { ChangeMenu(LevelsMenu); });
 
@@ -66,14 +97,46 @@ public class MenuManager : Singleton<MenuManager>
         });
     }
 
+    private void ListLevel()
+    {
+        for (int i = 0; i < LevelsMenu.transform.childCount; i++)
+        {
+            Destroy(LevelsMenu.transform.GetChild(i).gameObject);
+        }
+        foreach (var sceneIndex in GetAllLevelSceneIndex())
+            Instantiate(levelButtonPrefab, LevelsMenu.transform).GetComponent<LevelButton>().Initialize(sceneIndex);
+    }
+    private void Update()
+    {
+        if(DataManager.Instance.userInformation.GetDailyBonusVariable)
+           ChangeMenu(DailyBonusMenu);
+    }
+
     public void ChangeMenu(GameObject menu)
     {
         previousActiveMenu = activeMenu;
         activeMenu.SetActive(false);
         activeMenu = menu;
         activeMenu.SetActive(true);
+        
     }
 
+    public void GetDailyBonus(int coinValue=500)
+    {
+        DataManager.Instance.userInformation.SetDailyBonusPossible(false);
+        int value = int.Parse(iconText.text);
+
+        value += coinValue;
+        LeanTween.scale(iconText.gameObject, new Vector3(0.5f, 0.5f, 1f), 0.5f)
+            .setOnComplete(() =>
+            {
+                iconText.text = value.ToString();
+                LeanTween.scale(iconText.gameObject, new Vector3(1f, 1f, 1f), 0.5f);
+            });
+
+        DataManager.Instance.SetCoinCount(value);
+        FirebaseManager.Instance.Save();
+    }
     private List<int> GetAllLevelSceneIndex()
     {
         List<int> sceneList = new List<int>();

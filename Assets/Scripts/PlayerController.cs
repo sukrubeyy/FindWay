@@ -8,57 +8,71 @@ public class PlayerController : MonoBehaviour
     [Range(0, 150)] public float _speed = 5f;
     [SerializeField] private Rigidbody rb;
     private Vector3 input;
-    public bool isGrounded=true;
+    [SerializeField] private bool isGrounded = true;
     public float rotateDegree = 360;
     public float throwForce = 10f;
+
     public GameObject stonePrefab;
-    public Camera mainCamera;
-    
-    public float coyoTime=0.5f;
+
+    public float coyoTime = 0.5f;
+
+    [Header("Dash")] private bool canDash = true;
+    private bool isDashing;
+    public float dashingPower = 30f;
+    public float maxDashPower = 15f;
+    private float dashTime = 0.2f;
+    private float dashCoolDown = 1f;
+
     private void FixedUpdate()
     {
+        if (isDashing) return;
+
         rb.MovePosition(transform.position + (transform.forward * input.magnitude) * Time.deltaTime * _speed);
-        // if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-        //     Jump();
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+            Jump();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (isDashing) return;
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Look();
 
         if (Input.GetButtonDown("Fire1"))
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
                 if (hit.point != null)
                 {
-                    var direction =  hit.point - transform.position;
+                    var direction = hit.point - transform.position;
                     ThrowStone(direction);
                     Debug.DrawRay(transform.position, direction, Color.red);
                 }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(DashMechanism());
         }
     }
 
     void Jump()
     {
         rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+        AudioManager.Instance.ExecuteClip(AudioClipType.Jump2);
     }
 
     void ThrowStone(Vector3 throwPoint)
     {
-         // Taşın kopyasını oluştur
-         GameObject stone = Instantiate(stonePrefab, transform.position+Vector3.one, transform.rotation);
-        
-         // Taşa bir kuvvet uygula
-         Rigidbody stoneRb = stone.GetComponent<Rigidbody>();
-         if (stoneRb != null)
-         {
-             stoneRb.AddForce(throwPoint * throwForce, ForceMode.Impulse);
-         }
+        GameObject stone = Instantiate(stonePrefab, transform.position + Vector3.one, transform.rotation);
+
+        Rigidbody stoneRb = stone.GetComponent<Rigidbody>();
+        if (stoneRb != null)
+        {
+            stoneRb.AddForce(throwPoint * throwForce, ForceMode.Impulse);
+        }
     }
 
     void Look()
@@ -73,9 +87,40 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotateDegree * Time.deltaTime);
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isGrounded = true;
+        if (isDashing)
+            collision.gameObject.GetComponent<IFracturable>()?.ExecuteFracture(transform);
+    }
+
+    private void OnCollisionStay(Collision collisionInfo)
+    {
+        isGrounded = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        StartCoroutine(CoyoMechanism());
+    }
+
     IEnumerator CoyoMechanism()
     {
         yield return new WaitForSeconds(coyoTime);
         isGrounded = false;
+    }
+
+    IEnumerator DashMechanism()
+    {
+        canDash = false;
+        isDashing = true;
+        rb.velocity = transform.forward * dashingPower;
+        rb.velocity = rb.velocity.magnitude > maxDashPower ? rb.velocity.normalized * maxDashPower : rb.velocity;
+        AudioManager.Instance.ExecuteClip(AudioClipType.Dash);
+        yield return new WaitForSeconds(dashTime);
+        isDashing = false;
+        yield return new WaitForSeconds(dashCoolDown);
+        canDash = true;
     }
 }

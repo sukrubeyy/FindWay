@@ -10,8 +10,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         get{
             if(_instance is null)
             _instance = FindObjectOfType<T>();
-            else if(_instance is not null)
-                Destroy(FindObjectOfType<T>());
 
             
             return _instance;

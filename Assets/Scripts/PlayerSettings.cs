@@ -11,4 +11,6 @@ public struct PlayerSettings
 
     public bool isAdmob;
 
+
+    public void SetVolume(float value) => MusicVolume = value;
 }
