@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +15,7 @@ public class DataManager : Singleton<DataManager>
     public bool isDeleted;
     private void Start()
     {
-        userInformation.Initialize();
+      userInformation.SetUserID();
     }
 
     public void Update()

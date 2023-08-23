@@ -11,6 +11,13 @@ public class EndPoint : MonoBehaviour
     public Color radiusColor;
     [SerializeField] private Transform target;
     [SerializeField] private bool isFinish=false;
+    private StateContext context;
+    private void Start()
+    {
+        PlayerController controller = FindObjectOfType<PlayerController>();
+        context = new StateContext(controller);
+    }
+
     private void OnDrawGizmos()
     {
         Handles.color = radiusColor;
@@ -21,6 +28,7 @@ public class EndPoint : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target.position) <= radius && !isFinish)
         {
+            context.Transition(State.WinState);
             LeanTween.rotate(target.gameObject, transform.eulerAngles, 1f).setOnComplete(() =>
             {
                 LeanTween.move(target.gameObject, transform.position, 1f).setOnComplete(OpenWinMenu);

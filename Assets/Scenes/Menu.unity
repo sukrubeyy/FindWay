@@ -4256,7 +4256,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 130
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5226,7 +5226,7 @@ GameObject:
   - component: {fileID: 1530659093}
   - component: {fileID: 1530659094}
   m_Layer: 5
-  m_Name: VibrationToggle
+  m_Name: AdmobToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6382,8 +6382,8 @@ MonoBehaviour:
   AccountMenuButton: {fileID: 489436087}
   SettingsMenuButton: {fileID: 599079251}
   volumeSlider: {fileID: 1236810197}
-  isVibrate: {fileID: 1693686948}
-  isAdmob: {fileID: 1530659094}
+  vibrateToggle: {fileID: 1693686948}
+  admobToggle: {fileID: 1530659094}
   SaveButton: {fileID: 1755073491}
   ResetAllDataButton: {fileID: 1856182586}
   NickNameInputField: {fileID: 759319882}

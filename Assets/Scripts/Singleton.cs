@@ -11,8 +11,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             if(_instance is null)
             _instance = FindObjectOfType<T>();
 
-            
             return _instance;
         }
     }
 }
+
+
+

@@ -23,9 +23,20 @@ public class PlayerController : MonoBehaviour
     private float dashTime = 0.2f;
     private float dashCoolDown = 1f;
 
+    [Header("State Pattern")]
+    private StateContext Context;
+
+    private void Start()
+    {
+        Context = new StateContext(this);
+        Context.Transition(State.Playmode);
+    }
+
     private void FixedUpdate()
     {
         if (isDashing) return;
+        if (Context.GetCurrentState is not State.Playmode)
+            return;
 
         rb.MovePosition(transform.position + (transform.forward * input.magnitude) * Time.deltaTime * _speed);
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
@@ -35,6 +46,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (isDashing) return;
+        if(Context.GetCurrentState is not State.Playmode)
+            return;
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Look();
 
@@ -86,8 +99,6 @@ public class PlayerController : MonoBehaviour
         var rot = Quaternion.LookRotation(relative, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, rotateDegree * Time.deltaTime);
     }
-
-
     private void OnCollisionEnter(Collision collision)
     {
         isGrounded = true;

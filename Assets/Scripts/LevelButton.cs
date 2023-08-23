@@ -12,7 +12,7 @@ public class LevelButton : MonoBehaviour
     public void Initialize(int sceneIndex)
     {
         SceneIndex = sceneIndex;
-        //button.interactable = sceneIndex <= DataManager.Instance.UserData.GetLevelIndex;
+        button.interactable = sceneIndex <= DataManager.Instance.userInformation.GetLevelIndex;
         text.text = SceneIndex.ToString();
         button.onClick.AddListener(() =>
         {

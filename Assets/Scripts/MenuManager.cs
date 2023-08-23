@@ -4,6 +4,8 @@ using System.IO;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MenuManager : Singleton<MenuManager>
@@ -21,6 +23,7 @@ public class MenuManager : Singleton<MenuManager>
     private GameObject previousActiveMenu;
 
     public TMP_Text iconText;
+
     [Header("Menu Buttons")] [SerializeField]
     private Button LevelsMenuButton;
 
@@ -29,13 +32,13 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private Button HomeMenuuButton;
     [SerializeField] private Button AccountMenuButton;
     [SerializeField] private Button SettingsMenuButton;
-    
-    [Header("Player Settings")]
-    
-    [SerializeField] private Slider volumeSlider;
-    [SerializeField] private Toggle isVibrate;
-    [SerializeField] private Toggle isAdmob;
-    
+
+    [Header("Player Settings")] [SerializeField]
+    private Slider volumeSlider;
+
+    [SerializeField] private Toggle vibrateToggle;
+    [SerializeField] private Toggle admobToggle;
+
     [Header("Account Menu Items")] [SerializeField]
     private Button SaveButton;
 
@@ -49,28 +52,24 @@ public class MenuManager : Singleton<MenuManager>
     {
         activeMenu = HomeMenu;
         activeMenu.SetActive(true);
-        volumeSlider.value = DataManager.Instance.userInformation.GetVolume();
-        iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
 
         ListLevel();
 
-        SaveButton.onClick.AddListener(() =>
-        {
-            
-        });
-        
-        volumeSlider.onValueChanged.AddListener((sliderValue) =>
-        {
-            DataManager.Instance.userInformation.SetVolume(sliderValue);
-        });
+        SaveButton.onClick.AddListener(() => { FirebaseManager.Instance.Save(); });
+
+        volumeSlider.onValueChanged.AddListener((sliderValue) => { DataManager.Instance.userInformation.SetVolume(sliderValue); });
+
+        vibrateToggle.onValueChanged.AddListener(toggleValue => { DataManager.Instance.userInformation.SetVibrate(toggleValue); });
+
+        admobToggle.onValueChanged.AddListener(toggleValue => { DataManager.Instance.userInformation.SetAdmob(toggleValue); });
 
         ResetAllDataButton.onClick.AddListener(() =>
         {
-         DataManager.Instance.ResetPlayerData();
-         iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
-         ListLevel();
+            DataManager.Instance.ResetPlayerData();
+            iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+            ListLevel();
         });
-        
+
         claimbCoinButton.onClick.AddListener(() =>
         {
             GetDailyBonus();
@@ -97,19 +96,20 @@ public class MenuManager : Singleton<MenuManager>
         });
     }
 
+
     private void ListLevel()
     {
         for (int i = 0; i < LevelsMenu.transform.childCount; i++)
-        {
             Destroy(LevelsMenu.transform.GetChild(i).gameObject);
-        }
+
         foreach (var sceneIndex in GetAllLevelSceneIndex())
             Instantiate(levelButtonPrefab, LevelsMenu.transform).GetComponent<LevelButton>().Initialize(sceneIndex);
     }
+
     private void Update()
     {
-        if(DataManager.Instance.userInformation.GetDailyBonusVariable)
-           ChangeMenu(DailyBonusMenu);
+        if (DataManager.Instance.userInformation.GetDailyBonusVariable)
+            ChangeMenu(DailyBonusMenu);
     }
 
     public void ChangeMenu(GameObject menu)
@@ -118,10 +118,18 @@ public class MenuManager : Singleton<MenuManager>
         activeMenu.SetActive(false);
         activeMenu = menu;
         activeMenu.SetActive(true);
-        
     }
 
-    public void GetDailyBonus(int coinValue=500)
+    public void IntializeElementsOfUI()
+    {
+        volumeSlider.value = DataManager.Instance.userInformation.GetVolume();
+        iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+        admobToggle.isOn = DataManager.Instance.userInformation.IsAdmob();
+        vibrateToggle.isOn = DataManager.Instance.userInformation.IsVibrate();
+        ListLevel();
+    }
+
+    public void GetDailyBonus(int coinValue = 500)
     {
         DataManager.Instance.userInformation.SetDailyBonusPossible(false);
         int value = int.Parse(iconText.text);
@@ -137,9 +145,11 @@ public class MenuManager : Singleton<MenuManager>
         DataManager.Instance.SetCoinCount(value);
         FirebaseManager.Instance.Save();
     }
+
     private List<int> GetAllLevelSceneIndex()
     {
         List<int> sceneList = new List<int>();
+        //TODO: Burayı Android App İçin değiştirmeyi unutma - Application.persistentDataPath yapılacak
         var folderPath = Application.dataPath + "/Levels/";
         string[] scenePaths = Directory.GetFiles(folderPath, "*.unity");
         foreach (string scenePath in scenePaths)
