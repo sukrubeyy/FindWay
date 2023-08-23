@@ -7,7 +7,6 @@ using UnityEngine;
 public class FirebaseManager : Singleton<FirebaseManager>
 {
     private DatabaseReference reference;
-
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -28,6 +27,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
             {
                 if (task.IsFaulted)
                 {
+                    Debug.LogError("IS FAULTED");
                     // Handle the error...
                 }
                 else if (task.IsCompleted)
@@ -40,6 +40,15 @@ public class FirebaseManager : Singleton<FirebaseManager>
                         Debug.LogWarning("Firebase User Data Not Null");
                         DataManager.Instance.userInformation = cloudData;
                         MenuManager.Instance.IntializeElementsOfUI();
+                        try
+                        {
+                            DataManager.Instance.InstanceOnDailyBonusEvent(cloudData.GetLastLoginDate);
+                        }
+                        catch (Exception e)
+                        {
+                            print(e.Message);
+                            throw;
+                        }
                     }
                     else
                     {
@@ -49,6 +58,8 @@ public class FirebaseManager : Singleton<FirebaseManager>
                 }
             });
     }
+
+   
 
     public void DeleteData()
     {

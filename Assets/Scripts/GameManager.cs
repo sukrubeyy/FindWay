@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
     [Header("Menus")] public GameObject WinPanel;
     public GameObject LosePanel;
@@ -19,9 +19,13 @@ public class GameManager : Singleton<GameManager>
     public Button LoseRetryButton;
     public Button LoseLobbyButton;
     public Button LoseQuitButton;
-
+        
+    private StateContext context;
     private void Start()
     {
+        PlayerController controller = FindObjectOfType<PlayerController>();
+        context = new StateContext(controller);
+        
         WinRetryButton.onClick.AddListener(() => { LoadScene(GetSceneIndex()); });
         WinLobbyButton.onClick.AddListener(() =>
         {
@@ -51,6 +55,8 @@ public class GameManager : Singleton<GameManager>
         });
     }
 
+   
+
     private int GetSceneIndex()
     {
         return SceneManager.GetActiveScene().buildIndex;
@@ -61,5 +67,9 @@ public class GameManager : Singleton<GameManager>
     public void FinishSuccess()
     {
         WinPanel.SetActive(true);
+    }
+    public void LosePanelActive()
+    {
+        LosePanel.SetActive(true);
     }
 }

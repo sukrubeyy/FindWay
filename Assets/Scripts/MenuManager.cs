@@ -21,6 +21,7 @@ public class MenuManager : Singleton<MenuManager>
 
     private GameObject activeMenu;
     private GameObject previousActiveMenu;
+    public bool isDailyBonus;
 
     public TMP_Text iconText;
 
@@ -72,11 +73,13 @@ public class MenuManager : Singleton<MenuManager>
 
         claimbCoinButton.onClick.AddListener(() =>
         {
+            isDailyBonus = false;
             GetDailyBonus();
             ChangeMenu(HomeMenu);
         });
         rewardedCoinButton.onClick.AddListener(() =>
         {
+            isDailyBonus = false;
             GetDailyBonus(1000);
             ChangeMenu(HomeMenu);
         });
@@ -90,7 +93,9 @@ public class MenuManager : Singleton<MenuManager>
         SettingsMenuButton.onClick.AddListener(() =>
         {
             if (activeMenu != SettingsMenu)
+            {
                 ChangeMenu(SettingsMenu);
+            }
             else
                 ChangeMenu(previousActiveMenu);
         });
@@ -108,8 +113,10 @@ public class MenuManager : Singleton<MenuManager>
 
     private void Update()
     {
-        if (DataManager.Instance.userInformation.GetDailyBonusVariable)
+        if (isDailyBonus)
+        {
             ChangeMenu(DailyBonusMenu);
+        }
     }
 
     public void ChangeMenu(GameObject menu)
@@ -131,7 +138,8 @@ public class MenuManager : Singleton<MenuManager>
 
     public void GetDailyBonus(int coinValue = 500)
     {
-        DataManager.Instance.userInformation.SetDailyBonusPossible(false);
+        isDailyBonus = false;
+        //DataManager.Instance.userInformation.SetDailyBonusPossible(false);
         int value = int.Parse(iconText.text);
 
         value += coinValue;

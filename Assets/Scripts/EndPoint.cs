@@ -12,6 +12,7 @@ public class EndPoint : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private bool isFinish=false;
     private StateContext context;
+    public GameManager gameManager;
     private void Start()
     {
         PlayerController controller = FindObjectOfType<PlayerController>();
@@ -40,6 +41,6 @@ public class EndPoint : MonoBehaviour
     private void OpenWinMenu()
     {
         isFinish = true;
-        GameManager.Instance.FinishSuccess();
+        gameManager.FinishSuccess();
     }
 }

@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,9 +13,20 @@ public class DataManager : Singleton<DataManager>
     public UserInformation userInformation;
     public bool isSave;
     public bool isDeleted;
+
     private void Start()
     {
-      userInformation.SetUserID();
+        userInformation.SetUserID();
+    }
+
+    public void InstanceOnDailyBonusEvent(DateTime lastLogin)
+    {
+        TimeSpan timeDifference = DateTime.Now - lastLogin;
+        if (timeDifference.TotalDays >= 1)
+        {
+            MenuManager.Instance.isDailyBonus = true;
+            userInformation.UpdateLastLogin();
+        }
     }
 
     public void Update()
@@ -38,5 +49,6 @@ public class DataManager : Singleton<DataManager>
         userInformation.IncreaseLevel();
         FirebaseManager.Instance.Save();
     }
+
     public void SetCoinCount(int value) => userInformation.SetCoin(value);
 }

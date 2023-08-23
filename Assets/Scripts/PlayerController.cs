@@ -26,14 +26,23 @@ public class PlayerController : MonoBehaviour
     [Header("State Pattern")]
     private StateContext Context;
 
+    public State liteState;
+
+    public GameManager gameManager;
     private void Start()
     {
         Context = new StateContext(this);
         Context.Transition(State.Playmode);
+        liteState = Context.GetCurrentState;
     }
 
     private void FixedUpdate()
     {
+        if (Context.GetCurrentState is State.LoseState)
+        {
+            gameManager.LosePanelActive();
+            Destroy(rb);
+        }
         if (isDashing) return;
         if (Context.GetCurrentState is not State.Playmode)
             return;
@@ -41,6 +50,12 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(transform.position + (transform.forward * input.magnitude) * Time.deltaTime * _speed);
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             Jump();
+
+        if (transform.position.y < -5f)
+        {
+            Context.Transition(State.LoseState);
+            liteState = State.LoseState;
+        }
     }
 
     void Update()
