@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class LevelButton : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class LevelButton : MonoBehaviour
         {
                 if (button.IsInteractable())
                 {
+                    string json = JsonUtility.ToJson(DataManager.Instance.userInformation.GetCustomizationSettings);
+                    //System.IO.File.WriteAllText(Application.dataPath+"/Customization/CustomizationSettings.json",json);
+                    System.IO.File.WriteAllText(PathHelper.Path.CustomizationFolderPath+PathHelper.FileName.CustomizationJsonName,json);
                     MenuManager.Instance.SceneLoadingMenu.SetActive(true);
                     StartCoroutine(LoadLevel(SceneIndex));
                 }

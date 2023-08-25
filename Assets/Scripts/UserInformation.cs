@@ -11,12 +11,16 @@ public class UserInformation
     [field: SerializeField] private string Id { get; set; }
     [field: SerializeField] private PlayerSettings settings;
     [field: SerializeField] private string lastLoginTime;
+    [field: SerializeField] private CustomizationSettings _customizationSettings;
+
+    public CustomizationSettings GetCustomizationSettings => _customizationSettings;
     public void Initialize()
     {
         coinCount = 0;
         levelIndex = 1;
         lastLoginTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         settings.Initialize();
+        _customizationSettings.Initialize();
     }
 
     public void SetUserID()
@@ -44,5 +48,44 @@ public class UserInformation
         lastLoginTime=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         FirebaseManager.Instance.Save();
     }
+
+    public void SetEyesColor(Color32 value)
+    {
+        _customizationSettings.SetEyesColor(value);  
+    }
+
+    public Color32 GetEyesColor => _customizationSettings.EyesColor;
+    public Color32 GetBodyColor => _customizationSettings.BodyColor;
+    public Color32 GetArmsColor => _customizationSettings.ArmsColor;
+    public void SetBodyColor(Color32 value)
+    {
+        _customizationSettings.SetBodyColor(value);
+    }
+
+    public void SetArmsColor(Color32 value)
+    {
+        _customizationSettings.SetArmsColor(value);
+    }
+}
+
+[Serializable]
+public struct CustomizationSettings
+{
+    public Color32 EyesColor;
+    public Color32 BodyColor;
+    public Color32 ArmsColor;
+    public void Initialize()
+    {
+        EyesColor = Color.red;
+        BodyColor = Color.black;
+        ArmsColor = Color.magenta;
+    }
+
+    public void SetEyesColor(Color32 value) => EyesColor = value;
+
+
+    public void SetBodyColor(Color32 value) => BodyColor = value;
+
+    public void SetArmsColor(Color32 value) => ArmsColor = value;
 }
 

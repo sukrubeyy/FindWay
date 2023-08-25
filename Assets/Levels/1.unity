@@ -11674,6 +11674,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1496495057}
   offset: {x: 0, y: 0, z: 0}
+--- !u!1 &900689312 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2136080395881214003, guid: 6f56444ad38cd9a4192f2464c893d545,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496495049}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &907124677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17599,6 +17605,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9039304475439729020, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
+      propertyPath: BodyRenderer
+      value: 
+      objectReference: {fileID: 1496495053}
+    - target: {fileID: -9039304475439729020, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
+      propertyPath: EyesRenderer
+      value: 
+      objectReference: {fileID: 1496495052}
+    - target: {fileID: -9039304475439729020, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
+      propertyPath: ArmsRenderer.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -9039304475439729020, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
+      propertyPath: ArmsRenderer.Array.data[0]
+      value: 
+      objectReference: {fileID: 1496495051}
+    - target: {fileID: -9039304475439729020, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
+      propertyPath: ArmsRenderer.Array.data[1]
+      value: 
+      objectReference: {fileID: 1496495050}
     - target: {fileID: 2136080395881214003, guid: 6f56444ad38cd9a4192f2464c893d545,
         type: 3}
       propertyPath: m_Name
@@ -17664,14 +17695,66 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -9039304475439729020, guid: 6f56444ad38cd9a4192f2464c893d545, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6f56444ad38cd9a4192f2464c893d545, type: 3}
+--- !u!23 &1496495050 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2136080394300774332, guid: 6f56444ad38cd9a4192f2464c893d545,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496495049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1496495051 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2136080394237001417, guid: 6f56444ad38cd9a4192f2464c893d545,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496495049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1496495052 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2136080394985115833, guid: 6f56444ad38cd9a4192f2464c893d545,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496495049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1496495053 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2136080395881214001, guid: 6f56444ad38cd9a4192f2464c893d545,
+    type: 3}
+  m_PrefabInstance: {fileID: 1496495049}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1496495057 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2136080395881214007, guid: 6f56444ad38cd9a4192f2464c893d545,
     type: 3}
   m_PrefabInstance: {fileID: 1496495049}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1496495065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900689312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9fccc0db3753e47a381356a5b99e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _customizationSettings:
+    EyesColor:
+      serializedVersion: 2
+      rgba: 0
+    BodyColor:
+      serializedVersion: 2
+      rgba: 0
+    ArmsColor:
+      serializedVersion: 2
+      rgba: 0
+  EyesRenderer: {fileID: 1496495052}
+  BodyRenderer: {fileID: 1496495053}
+  ArmsRenderer:
+  - {fileID: 1496495051}
+  - {fileID: 1496495050}
 --- !u!1001 &1501538307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18408,7 +18491,7 @@ GameObject:
   - component: {fileID: 1565817412}
   - component: {fileID: 1565817416}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Button1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
