@@ -29,17 +29,16 @@ public class EndPoint : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target.position) <= radius && !isFinish)
         {
-            context.Transition(State.WinState);
             LeanTween.rotate(target.gameObject, transform.eulerAngles, 1f).setOnComplete(() =>
             {
                 LeanTween.move(target.gameObject, transform.position, 1f).setOnComplete(OpenWinMenu);
-                
             }).destroyOnComplete=false;
         }
     }
 
     private void OpenWinMenu()
     {
+        context.Transition(State.WinState);
         isFinish = true;
         gameManager.FinishSuccess();
     }
