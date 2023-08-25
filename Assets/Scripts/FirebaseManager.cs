@@ -59,7 +59,11 @@ public class FirebaseManager : Singleton<FirebaseManager>
             });
     }
 
-   
+    public void Reset()
+    {
+        DeleteData();
+        DataManager.Instance.userInformation.Initialize();
+    }
 
     public void DeleteData()
     {

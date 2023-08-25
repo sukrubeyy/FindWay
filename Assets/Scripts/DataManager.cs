@@ -20,12 +20,5 @@ public class DataManager : Singleton<DataManager>
     }
 
 
-    public void ResetPlayerData()
-    {
-        userInformation = new UserInformation();
-        userInformation.IncreaseLevel();
-        FirebaseManager.Instance.Save();
-    }
-
     public void SetCoinCount(int value) => userInformation.SetCoin(value);
 }

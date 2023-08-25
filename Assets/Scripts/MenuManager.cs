@@ -44,11 +44,11 @@ public class MenuManager : Singleton<MenuManager>
     private Button SaveButton;
 
     [SerializeField] private Button ResetAllDataButton;
-    [SerializeField] private TMP_InputField NickNameInputField;
-
+    [SerializeField] private Button GithubButton;
+    [SerializeField] private Button PortfolyoButton;
+    [SerializeField] private Button LinkedlnButton;
 
     [Header("Prefabs")] [SerializeField] private GameObject levelButtonPrefab;
-
     private void Start()
     {
         activeMenu = HomeMenu;
@@ -60,15 +60,39 @@ public class MenuManager : Singleton<MenuManager>
 
         volumeSlider.onValueChanged.AddListener((sliderValue) => { DataManager.Instance.userInformation.SetVolume(sliderValue); });
 
-        vibrateToggle.onValueChanged.AddListener(toggleValue => { DataManager.Instance.userInformation.SetVibrate(toggleValue); });
+        vibrateToggle.onValueChanged.AddListener(toggleValue =>
+        {
+            DataManager.Instance.userInformation.SetVibrate(toggleValue);
+            FirebaseManager.Instance.Save();
+        });
 
-        admobToggle.onValueChanged.AddListener(toggleValue => { DataManager.Instance.userInformation.SetAdmob(toggleValue); });
+        admobToggle.onValueChanged.AddListener(toggleValue =>
+        {
+            DataManager.Instance.userInformation.SetAdmob(toggleValue);
+            FirebaseManager.Instance.Save();
+        });
 
         ResetAllDataButton.onClick.AddListener(() =>
         {
-            DataManager.Instance.ResetPlayerData();
-            iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+            // DataManager.Instance.ResetPlayerData();
+            // iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+            FirebaseManager.Instance.Reset();
             ListLevel();
+        });
+        
+        GithubButton.onClick.AddListener(() =>
+        {
+            Application.OpenURL("https://github.com/sukrubeyy");
+        });
+        
+        PortfolyoButton.onClick.AddListener(() =>
+        {
+            Application.OpenURL("https://sukrucay.com.tr");
+        });
+        
+        LinkedlnButton.onClick.AddListener(() =>
+        {
+            Application.OpenURL("https://www.linkedin.com/in/şükrü-çay-a0a8461a3/");
         });
 
         claimbCoinButton.onClick.AddListener(() =>
