@@ -28,9 +28,7 @@ public class CharacterCustomization : MonoBehaviour
         EyesRenderer.material.color = _customizationSettings.EyesColor;
         BodyRenderer.material.color = _customizationSettings.BodyColor;
         foreach (var arm in ArmsRenderer)
-        {
             arm.material.color = _customizationSettings.ArmsColor;
-        }
         
     }
 }

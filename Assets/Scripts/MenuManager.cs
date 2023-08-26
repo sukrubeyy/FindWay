@@ -20,7 +20,8 @@ public class MenuManager : Singleton<MenuManager>
     public bool isDailyBonus;
     public TMP_Text iconText;
 
-    [Header("Loading Screen")] public GameObject SceneLoadingMenu;
+    [Header("Loading Screen")] 
+    public GameObject SceneLoadingMenu;
     public Slider loadingBar;
 
     [Header("Menu Buttons")] [SerializeField]

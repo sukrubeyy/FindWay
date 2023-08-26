@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 2136080395881214006}
   - component: {fileID: 1496495051}
   - component: {fileID: 1496495058}
+  - component: {fileID: 1496495065}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -418,6 +419,7 @@ MonoBehaviour:
   dashingPower: 20
   maxDashPower: 10
   liteState: 0
+  _audioManager: {fileID: 1496495051}
   gameManager: {fileID: 0}
 --- !u!54 &2136080395881214006
 Rigidbody:
@@ -553,3 +555,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1496495065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136080395881214003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9fccc0db3753e47a381356a5b99e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _customizationSettings:
+    EyesColor:
+      serializedVersion: 2
+      rgba: 0
+    BodyColor:
+      serializedVersion: 2
+      rgba: 0
+    ArmsColor:
+      serializedVersion: 2
+      rgba: 0
+  EyesRenderer: {fileID: 2136080394985115833}
+  BodyRenderer: {fileID: 2136080395881214001}
+  ArmsRenderer:
+  - {fileID: 2136080394237001417}
+  - {fileID: 2136080394300774332}
