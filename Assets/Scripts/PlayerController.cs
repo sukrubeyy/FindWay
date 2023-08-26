@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public AudioManager _audioManager;
 
     public GameManager gameManager;
+    
     private void Start()
     {
         Context = new StateContext(this);
@@ -76,9 +77,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.point != null)
                 {
-                    var direction = hit.point - transform.position;
-                    ThrowStone(direction);
-                    Debug.DrawRay(transform.position, direction, Color.red);
+                    if (hit.collider.GetComponent<ITicable>() != null)
+                    {
+                        var direction = hit.point - transform.position;
+                        ThrowStone(direction);
+                        Debug.DrawRay(transform.position, direction, Color.red);
+                    }
                 }
             }
         }
@@ -97,8 +101,11 @@ public class PlayerController : MonoBehaviour
 
     void ThrowStone(Vector3 throwPoint)
     {
-        GameObject stone = Instantiate(stonePrefab, transform.position + Vector3.one, transform.rotation);
-
+        
+        //GameObject stone = Instantiate(PoolManager.Instance.GetPoolObject(PoolObjectType.Stone), transform.position + Vector3.one, transform.rotation);
+        GameObject stone = PoolManager.Instance.GetPoolObject(PoolObjectType.Stone);
+        stone.transform.position = transform.position + Vector3.one;
+        stone.transform.rotation = transform.rotation;
         Rigidbody stoneRb = stone.GetComponent<Rigidbody>();
         if (stoneRb != null)
         {
