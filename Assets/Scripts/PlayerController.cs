@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     public State liteState;
 
+    public AudioManager _audioManager;
+
     public GameManager gameManager;
     private void Start()
     {
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         rb.MovePosition(transform.position + (transform.forward * input.magnitude) * Time.deltaTime * _speed);
+        
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
             Jump();
 
@@ -89,7 +92,7 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-        AudioManager.Instance.ExecuteClip(AudioClipType.Jump2);
+        _audioManager.ExecuteClip(AudioClipType.Jump2);
     }
 
     void ThrowStone(Vector3 throwPoint)
@@ -143,7 +146,7 @@ public class PlayerController : MonoBehaviour
         isDashing = true;
         rb.velocity = transform.forward * dashingPower;
         rb.velocity = rb.velocity.magnitude > maxDashPower ? rb.velocity.normalized * maxDashPower : rb.velocity;
-        AudioManager.Instance.ExecuteClip(AudioClipType.Dash);
+        _audioManager.ExecuteClip(AudioClipType.Dash);
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
         yield return new WaitForSeconds(dashCoolDown);

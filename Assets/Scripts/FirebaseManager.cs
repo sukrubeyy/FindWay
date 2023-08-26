@@ -3,10 +3,12 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FirebaseManager : Singleton<FirebaseManager>
 {
     private DatabaseReference reference;
+
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -34,12 +36,14 @@ public class FirebaseManager : Singleton<FirebaseManager>
                 {
                     DataSnapshot snapshot = task.Result;
                     string json = snapshot.GetRawJsonValue();
-                    var cloudData =  JsonUtility.FromJson<UserInformation>(json);
+                    var cloudData = JsonUtility.FromJson<UserInformation>(json);
                     if (cloudData is not null)
                     {
                         Debug.LogWarning("Firebase User Data Not Null");
                         DataManager.Instance.userInformation = cloudData;
                         MenuManager.Instance.IntializeElementsOfUI();
+                        CustomizationObject.Instance.Initialize();
+
                         try
                         {
                             DataManager.Instance.InstanceOnDailyBonusEvent(cloudData.GetLastLoginDate);
@@ -54,12 +58,19 @@ public class FirebaseManager : Singleton<FirebaseManager>
                     {
                         Debug.LogWarning("Firebase User Data Null");
                         DataManager.Instance.userInformation.Initialize();
+                        CustomizationObject.Instance.Initialize();
+
+                        Save();
                     }
                 }
             });
     }
 
-   
+    public void Reset()
+    {
+        DeleteData();
+        DataManager.Instance.userInformation.Initialize();
+    }
 
     public void DeleteData()
     {
@@ -69,6 +80,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
         DataManager.Instance.userInformation.Initialize();
         MenuManager.Instance.IntializeElementsOfUI();
     }
+
     public void Save()
     {
         reference.Child("Users").Child(DataManager.Instance.userInformation.GetUserId).SetRawJsonValueAsync(JsonUtility.ToJson(DataManager.Instance.userInformation));

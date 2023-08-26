@@ -14,16 +14,15 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private GameObject HomeMenu;
     [SerializeField] private GameObject AccountMenu;
     [SerializeField] private GameObject SettingsMenu;
-    [SerializeField] private GameObject UpperAndBottomMenu;
     [SerializeField] private GameObject DailyBonusMenu;
-    public GameObject SceneLoadingMenu;
-    public Slider loadingBar;
-
     private GameObject activeMenu;
     private GameObject previousActiveMenu;
     public bool isDailyBonus;
-
     public TMP_Text iconText;
+
+    [Header("Loading Screen")] 
+    public GameObject SceneLoadingMenu;
+    public Slider loadingBar;
 
     [Header("Menu Buttons")] [SerializeField]
     private Button LevelsMenuButton;
@@ -33,6 +32,11 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private Button HomeMenuuButton;
     [SerializeField] private Button AccountMenuButton;
     [SerializeField] private Button SettingsMenuButton;
+    [SerializeField] private Button SaveButton;
+    [SerializeField] private Button ResetAllDataButton;
+    [SerializeField] private Button GithubButton;
+    [SerializeField] private Button PortfolyoButton;
+    [SerializeField] private Button LinkedlnButton;
 
     [Header("Player Settings")] [SerializeField]
     private Slider volumeSlider;
@@ -40,14 +44,20 @@ public class MenuManager : Singleton<MenuManager>
     [SerializeField] private Toggle vibrateToggle;
     [SerializeField] private Toggle admobToggle;
 
-    [Header("Account Menu Items")] [SerializeField]
-    private Button SaveButton;
-
-    [SerializeField] private Button ResetAllDataButton;
-    [SerializeField] private TMP_InputField NickNameInputField;
-
 
     [Header("Prefabs")] [SerializeField] private GameObject levelButtonPrefab;
+
+    [Header("Customization")] public GameObject CustomizationCharacter;
+
+
+    public LayerMask layerMask;
+
+    public Button eyesButton;
+    public GameObject eyesColorPallete;
+    public Button bodyButton;
+    public GameObject bodyColorPallete;
+    public Button armsButton;
+    public GameObject armsColorPallete;
 
     private void Start()
     {
@@ -56,20 +66,42 @@ public class MenuManager : Singleton<MenuManager>
 
         ListLevel();
 
+        eyesButton.onClick.AddListener(() => { eyesColorPallete.SetActive(!eyesColorPallete.activeSelf); });
+
+        bodyButton.onClick.AddListener(() => { bodyColorPallete.SetActive(!bodyColorPallete.activeSelf); });
+
+        armsButton.onClick.AddListener(() => { armsColorPallete.SetActive(!armsColorPallete.activeSelf); });
+
+
         SaveButton.onClick.AddListener(() => { FirebaseManager.Instance.Save(); });
 
         volumeSlider.onValueChanged.AddListener((sliderValue) => { DataManager.Instance.userInformation.SetVolume(sliderValue); });
 
-        vibrateToggle.onValueChanged.AddListener(toggleValue => { DataManager.Instance.userInformation.SetVibrate(toggleValue); });
+        vibrateToggle.onValueChanged.AddListener(toggleValue =>
+        {
+            DataManager.Instance.userInformation.SetVibrate(toggleValue);
+            FirebaseManager.Instance.Save();
+        });
 
-        admobToggle.onValueChanged.AddListener(toggleValue => { DataManager.Instance.userInformation.SetAdmob(toggleValue); });
+        admobToggle.onValueChanged.AddListener(toggleValue =>
+        {
+            DataManager.Instance.userInformation.SetAdmob(toggleValue);
+            FirebaseManager.Instance.Save();
+        });
 
         ResetAllDataButton.onClick.AddListener(() =>
         {
-            DataManager.Instance.ResetPlayerData();
-            iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+            // DataManager.Instance.ResetPlayerData();
+            // iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
+            FirebaseManager.Instance.Reset();
             ListLevel();
         });
+
+        GithubButton.onClick.AddListener(() => { Application.OpenURL("https://github.com/sukrubeyy"); });
+
+        PortfolyoButton.onClick.AddListener(() => { Application.OpenURL("https://sukrucay.com.tr"); });
+
+        LinkedlnButton.onClick.AddListener(() => { Application.OpenURL("https://www.linkedin.com/in/şükrü-çay-a0a8461a3/"); });
 
         claimbCoinButton.onClick.AddListener(() =>
         {
@@ -117,10 +149,31 @@ public class MenuManager : Singleton<MenuManager>
         {
             ChangeMenu(DailyBonusMenu);
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 150, layerMask))
+            {
+                if (hit.collider is not null)
+                {
+                    Vector3 directionToMouse = (hit.point - hit.transform.position).normalized;
+            
+                    float rotationSpeed = 1.0f; // Döndürme hızını ayarlayabilirsiniz
+                    Quaternion targetRotation = Quaternion.LookRotation(directionToMouse) * Quaternion.Euler(0, 0, 0);
+            
+                    hit.transform.rotation = Quaternion.Slerp(hit.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                }
+            }
+        }
     }
 
     public void ChangeMenu(GameObject menu)
     {
+        if (HomeMenu == menu)
+            CustomizationCharacter.SetActive(true);
+        else
+            CustomizationCharacter.SetActive(false);
         previousActiveMenu = activeMenu;
         activeMenu.SetActive(false);
         activeMenu = menu;
@@ -157,8 +210,7 @@ public class MenuManager : Singleton<MenuManager>
     private List<int> GetAllLevelSceneIndex()
     {
         List<int> sceneList = new List<int>();
-        //TODO: Burayı Android App İçin değiştirmeyi unutma - Application.persistentDataPath yapılacak
-        var folderPath = Application.dataPath + "/Levels/";
+        var folderPath = PathHelper.Path.LevelsPath;
         string[] scenePaths = Directory.GetFiles(folderPath, "*.unity");
         foreach (string scenePath in scenePaths)
         {
