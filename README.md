@@ -28,7 +28,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 }
 </code>
 </pre>
-<img src="/Images/HowToUseSingleton.png"/>
+<img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/HowToUseSingleton.PNG"/>
 <pre>
 <code>
     PoolManager.Instance.GetPoolObject(PoolObjectType.Stone);
