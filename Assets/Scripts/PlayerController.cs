@@ -11,9 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isGrounded = true;
     public float rotateDegree = 360;
     public float throwForce = 10f;
-
-    public GameObject stonePrefab;
-
     public float coyoTime = 0.5f;
 
     [Header("Dash")] private bool canDash = true;
@@ -26,16 +23,20 @@ public class PlayerController : MonoBehaviour
     [Header("State Pattern")]
     private StateContext Context;
 
-    public State liteState;
 
     public AudioManager _audioManager;
-
+    public PoolManager poolManager;
     public GameManager gameManager;
+    
+    
+    private float FireRate= 1.0f;
+    private float nextFire = default;
+    
+        
     private void Start()
     {
         Context = new StateContext(this);
         Context.Transition(State.Playmode);
-        liteState = Context.GetCurrentState;
     }
 
     private void FixedUpdate()
@@ -57,7 +58,6 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < -5f)
         {
             Context.Transition(State.LoseState);
-            liteState = State.LoseState;
         }
     }
 
@@ -69,16 +69,25 @@ public class PlayerController : MonoBehaviour
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Look();
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") )
         {
+           
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
                 if (hit.point != null)
                 {
-                    var direction = hit.point - transform.position;
-                    ThrowStone(direction);
-                    Debug.DrawRay(transform.position, direction, Color.red);
+                    if (hit.collider.GetComponent<ITicable>() != null)
+                    {
+                        if (Time.time > nextFire)
+                        {
+                             nextFire = Time.time + FireRate;
+                            var direction = hit.point - transform.position;
+                            ThrowStone(direction);
+                            Debug.DrawRay(transform.position, direction, Color.red);
+                        }
+                       
+                    }
                 }
             }
         }
@@ -97,8 +106,9 @@ public class PlayerController : MonoBehaviour
 
     void ThrowStone(Vector3 throwPoint)
     {
-        GameObject stone = Instantiate(stonePrefab, transform.position + Vector3.one, transform.rotation);
-
+        GameObject stone = poolManager.GetPoolObject(PoolObjectType.Stone);
+        stone.transform.position = transform.position + Vector3.one;
+        stone.transform.rotation = transform.rotation;
         Rigidbody stoneRb = stone.GetComponent<Rigidbody>();
         if (stoneRb != null)
         {
