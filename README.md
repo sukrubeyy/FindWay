@@ -28,16 +28,11 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 }
 </code>
 </pre>
-
-    <pre>
-    <code>
-    public class PoolManager : Singleton<PoolManager>{
-    
-    }
-    </code>
-    </pre>
-    <li>
-</li>
+<pre>
+<code>
+    public class PoolManager : Singleton<PoolManager>{}
+</code>
+</pre>
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
     </li>
