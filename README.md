@@ -543,6 +543,12 @@ public class UserInformation
              <li>Stone Throw</li>
              <li>Coyo Jumping</li>
         </ul>
+       <li>
+            <h3>Customization</h3>
+           <ul>
+               <li></li>
+           </ul>
+       </li>
     </li>
 </ol>
 
