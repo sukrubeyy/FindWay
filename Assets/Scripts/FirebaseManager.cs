@@ -3,12 +3,9 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 public class FirebaseManager : Singleton<FirebaseManager>
 {
     private DatabaseReference reference;
-
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -87,6 +84,5 @@ public class FirebaseManager : Singleton<FirebaseManager>
         reference.Child("Users").Child(DataManager.Instance.userInformation.GetUserId).SetRawJsonValueAsync(JsonUtility.ToJson(DataManager.Instance.userInformation));
         GetUserInformationFromFirebaseDatabase();
         MenuManager.Instance.IntializeElementsOfUI();
-        Debug.Log("SAVED");
     }
 }

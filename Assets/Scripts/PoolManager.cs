@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +9,6 @@ public class PoolManager : Singleton<PoolManager>
     {
         Initialize();
     }
-
     private void Initialize()
     {
         for (int i = 0; i < objects.Length; i++)

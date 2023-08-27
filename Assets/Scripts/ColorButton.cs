@@ -1,12 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Diagnostics;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Object = System.Object;
 
 public class ColorButton : MonoBehaviour
 {
@@ -34,13 +27,4 @@ public class ColorButton : MonoBehaviour
             }
         });
     }
-}
-
-
-
-public enum CustomizationButtonType
-{
-    Body,
-    Eyes,
-    Arms
 }

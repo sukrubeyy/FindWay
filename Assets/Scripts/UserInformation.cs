@@ -7,7 +7,6 @@ public class UserInformation
 {
     public int coinCount;
     [field: SerializeField] private int levelIndex;
-    //[field: SerializeField] private bool IsGetDailyBonus;
     [field: SerializeField] private string Id { get; set; }
     [field: SerializeField] private PlayerSettings settings;
     [field: SerializeField] private string lastLoginTime;
@@ -29,8 +28,6 @@ public class UserInformation
     }
     public int GetCoinCount => coinCount;
     public string GetUserId => Id;
-    //public bool GetDailyBonusVariable => IsGetDailyBonus;
-    //public void SetDailyBonusPossible(bool value) => IsGetDailyBonus = value;
     public void IncreaseCoinCount() => coinCount++;
     public void DecriseCoinCount() => coinCount--;
     public void IncreaseLevel() => levelIndex++;
@@ -67,25 +64,3 @@ public class UserInformation
         _customizationSettings.SetArmsColor(value);
     }
 }
-
-[Serializable]
-public struct CustomizationSettings
-{
-    public Color32 EyesColor;
-    public Color32 BodyColor;
-    public Color32 ArmsColor;
-    public void Initialize()
-    {
-        EyesColor = Color.red;
-        BodyColor = Color.black;
-        ArmsColor = Color.magenta;
-    }
-
-    public void SetEyesColor(Color32 value) => EyesColor = value;
-
-
-    public void SetBodyColor(Color32 value) => BodyColor = value;
-
-    public void SetArmsColor(Color32 value) => ArmsColor = value;
-}
-
