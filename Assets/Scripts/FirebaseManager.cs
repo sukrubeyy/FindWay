@@ -66,6 +66,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
             });
     }
 
+
     public void Reset()
     {
         DeleteData();

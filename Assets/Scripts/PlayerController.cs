@@ -20,14 +20,9 @@ public class PlayerController : MonoBehaviour
     private float dashTime = 0.2f;
     private float dashCoolDown = 1f;
 
-    [Header("State Pattern")]
-    private StateContext Context;
-
-
     public AudioManager _audioManager;
     public PoolManager poolManager;
     public GameManager gameManager;
-    
     
     private float FireRate= 1.0f;
     private float nextFire = default;
@@ -35,19 +30,18 @@ public class PlayerController : MonoBehaviour
         
     private void Start()
     {
-        Context = new StateContext(this);
-        Context.Transition(State.Playmode);
+        StateContext.Instance.Transition(State.Playmode);
     }
 
     private void FixedUpdate()
     {
-        if (Context.GetCurrentState is State.LoseState)
+        if (StateContext.Instance.GetCurrentState is State.LoseState)
         {
             gameManager.LosePanelActive();
             Destroy(rb);
         }
         if (isDashing) return;
-        if (Context.GetCurrentState is not State.Playmode)
+        if (StateContext.Instance.GetCurrentState is not State.Playmode)
             return;
 
         rb.MovePosition(transform.position + (transform.forward * input.magnitude) * Time.deltaTime * _speed);
@@ -57,14 +51,14 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y < -5f)
         {
-            Context.Transition(State.LoseState);
+            StateContext.Instance.Transition(State.LoseState);
         }
     }
 
     void Update()
     {
         if (isDashing) return;
-        if(Context.GetCurrentState is not State.Playmode)
+        if(StateContext.Instance.GetCurrentState is not State.Playmode)
             return;
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         Look();
@@ -134,10 +128,7 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.GetComponent<IFracturable>()?.ExecuteFracture(transform);
     }
 
-    private void OnCollisionStay(Collision collisionInfo)
-    {
-        isGrounded = true;
-    }
+    private void OnCollisionStay(Collision collisionInfo) =>    isGrounded = true;
 
     private void OnCollisionExit(Collision other)
     {

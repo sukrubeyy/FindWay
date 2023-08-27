@@ -11,13 +11,8 @@ public class EndPoint : MonoBehaviour
     public Color radiusColor;
     [SerializeField] private Transform target;
     [SerializeField] private bool isFinish=false;
-    private StateContext context;
     public GameManager gameManager;
-    private void Start()
-    {
-        PlayerController controller = FindObjectOfType<PlayerController>();
-        context = new StateContext(controller);
-    }
+ 
 
     private void OnDrawGizmos()
     {
@@ -38,7 +33,7 @@ public class EndPoint : MonoBehaviour
 
     private void OpenWinMenu()
     {
-        context.Transition(State.WinState);
+        StateContext.Instance.Transition(State.WinState);
         isFinish = true;
         gameManager.FinishSuccess();
     }

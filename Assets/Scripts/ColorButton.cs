@@ -32,12 +32,8 @@ public class ColorButton : MonoBehaviour
                     CustomizationObject.Instance.SetArmsColor(color);
                     break;
             }
-
-            //TODO: UserInformation -> Color set operation
         });
     }
-
-   
 }
 
 

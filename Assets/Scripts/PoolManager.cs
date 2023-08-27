@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,24 +32,9 @@ public class PoolManager : Singleton<PoolManager>
         return foundObject;
     }
 
-
     public void SendPool(PoolObjectType type,GameObject poolObj)
     {
         poolObj.SetActive(false);
         objects.FirstOrDefault(x => x.type == type).pooledObject.Enqueue(poolObj);
     }
-}
-
-[Serializable]
-public struct ObjectOfPool
-{
-    public int count;
-    public Queue<GameObject> pooledObject;
-    public PoolObjectType type;
-    public GameObject objectPrefab;
-}
-
-public enum PoolObjectType
-{
-    Stone
 }

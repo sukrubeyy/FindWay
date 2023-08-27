@@ -23,6 +23,10 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
+        if (StateContext.Instance.GetCurrentState is not State.Playmode)
+        {
+          Destroy(gameObject);
+        }
         if (MovementPopUp() && index == 0)
         {
             ClosePopUp(index);
@@ -43,15 +47,6 @@ public class TutorialManager : MonoBehaviour
         {
             ClosePopUp(index);
         }
-    }
-
-    void Execute()
-    {
-        ClosePopUp(index);
-        if (index >= 3) return;
-
-        index++;
-        OpenPopUp(index);
     }
 
     void OpenPopUp(int popUpIndex)
@@ -108,6 +103,8 @@ public class TutorialManager : MonoBehaviour
                     if (value <= 0.0f)
                     {
                         popup.SetActive(false);
+                        if(index==2)
+                            Destroy(gameObject);
                     }
                 });
         }
