@@ -11,9 +11,21 @@
         <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. 
     </li>
     <li>
-       <code>
-           git clone https://github.com/sukrubeyy/FindWay.git
-       </code>
+       ```markdown
+```csharp
+        using System;
+namespace HelloWorld
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello, world!");
+        }
+    }
+}
+```
+```
     </li>
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
