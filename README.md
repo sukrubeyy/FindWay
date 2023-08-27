@@ -26,8 +26,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 }
-```
-```
  </li>
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
