@@ -13,7 +13,27 @@
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
     </li>
-    <!-- Diğer özellikler buraya gelebilir -->
+    <li>
+        <strong>Object Pooling</strong>: Nesne havuzlaması, performansı artırmak için sık kullanılan nesneleri önceden oluşturur ve yeniden kullanır. Bu, dinamik nesne oluşturmanın maliyetini azaltır.
+    </li>
+    <li>
+        <strong>Firebase Realtime Database</strong>: Firebase veritabanı, oyun içi kullanıcı verilerini depolamak ve senkronize etmek için kullanılır. Oyuncu ilerlemesi, skorlar vb. gibi verileri saklamak için kullanılır.
+    </li>
+     <li>
+        <strong>Firebase Realtime Database</strong>: Firebase veritabanı, oyun içi kullanıcı verilerini depolamak ve senkronize etmek için kullanılır. Oyuncu ilerlemesi, skorlar vb. gibi verileri saklamak için kullanılır.
+    </li>
+    <li>
+        <strong>JSON Serialize ve Deserialize</strong>: Proje, oyun içi verileri JSON formatında saklamak, okumak ve yazmak için JSON serialize ve deserialize işlemlerini kullanır.
+    </li>
+    <li>
+        <strong>Customization</strong>: Oyunculara karakterlerini, araçlarını veya dünyalarını özelleştirme imkanı sunar. Bu, kullanıcı deneyimini kişiselleştirmeyi destekler.
+    </li>
+    <li>
+        <strong>Google AdMob Reklamları</strong>: Proje, Google AdMob'u entegre ederek reklam gösterimini yönetir. Bu, oyun gelirini artırmak için kullanılır.
+    </li>
+
+    
+    
 </ul>
 
 <h2>🛠️ Nasıl Başlanır?</h2>
