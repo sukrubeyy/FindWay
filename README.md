@@ -533,6 +533,19 @@ public class UserInformation
 
 </ul>
 
+<h2> FindWay Images And Tutorials </h2>
+<ol>
+    <li>
+       <h3>Tutorial State</h3>
+        <ul>
+            <li>Movement</li>
+             <li>Dash</li>
+             <li>Stone Throw</li>
+             <li>Coyo Jumping</li>
+        </ul>
+    </li>
+</ol>
+
 <h2>🛠️ Nasıl Başlanır?</h2>
 
 <p>
