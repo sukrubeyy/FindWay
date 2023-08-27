@@ -11,9 +11,10 @@
         <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. 
     </li>
     <li>
-       ```markdown
+  ```markdown
 ```csharp
-        using System;
+using System;
+
 namespace HelloWorld
 {
     class Program
@@ -26,7 +27,7 @@ namespace HelloWorld
 }
 ```
 ```
-    </li>
+ </li>
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
     </li>
