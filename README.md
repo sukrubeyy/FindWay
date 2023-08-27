@@ -539,10 +539,10 @@ public class UserInformation
        <h3>Tutorial State</h3>
         <ul>
              <li>Movement</li>
-             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/MovementTutorial.png"/>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/MovementTutorial.PNG"/>
              <li>Dash</li>
              <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/DashGif.gif"/>
-             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/DashTutorial.png"/>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/MovementTutorial.PNG"/>
              <li>Stone Throw</li>
              <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/ThrowGif.gif"/>
              <li>Coyo Jumping</li>
