@@ -11,7 +11,8 @@
         <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. 
     </li>
     <li>
-        <code>public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+```csharp
+        public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
     public static T Instance
@@ -23,7 +24,7 @@
             return _instance;
         }
     }
-}</code>
+}
     </li>
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
