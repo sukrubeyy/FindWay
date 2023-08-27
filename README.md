@@ -10,6 +10,9 @@
     <li>
         <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. 
     </li>
+    ```csharp
+// C# kodunuz burada
+```
     <li>
 
 </li>
