@@ -23,6 +23,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (_instance is null)
                 _instance = FindAnyObjectByType(typeof(T)) as T;
+                
             return _instance;
         }
     }
