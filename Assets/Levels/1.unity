@@ -2857,6 +2857,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 118424909}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &124161275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 124161276}
+  m_Layer: 0
+  m_Name: RockDashTutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &124161276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124161275}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.17, y: 1.7, z: 16.28}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &128406243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19122,8 +19153,18 @@ PrefabInstance:
       objectReference: {fileID: 89440724}
     - target: {fileID: 2136080395881214005, guid: 6f56444ad38cd9a4192f2464c893d545,
         type: 3}
+      propertyPath: poolManager
+      value: 
+      objectReference: {fileID: 391104821}
+    - target: {fileID: 2136080395881214005, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
       propertyPath: collDownTime
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136080395881214005, guid: 6f56444ad38cd9a4192f2464c893d545,
+        type: 3}
+      propertyPath: dashingPower
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2136080395881214007, guid: 6f56444ad38cd9a4192f2464c893d545,
         type: 3}
@@ -23984,6 +24025,9 @@ MonoBehaviour:
   - {fileID: 1230425212}
   animationDuration: 1
   opacityValue: 0.3
+  RockDashTransform: {fileID: 124161276}
+  PlayerTransform: {fileID: 1496495057}
+  rockDashRadius: 5
 --- !u!1 &1969215714 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8027594031469585410, guid: 326d053bdd1aa3a438922c178fec8b73,

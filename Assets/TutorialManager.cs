@@ -12,6 +12,10 @@ public class TutorialManager : MonoBehaviour
     public float animationDuration = 1.0f;
     public float opacityValue = 1f;
 
+    [SerializeField] private Transform RockDashTransform;
+    [SerializeField] private Transform PlayerTransform;
+    [SerializeField] private float rockDashRadius = 3f;
+
     private void Start()
     {
         OpenPopUp(index);
@@ -21,29 +25,38 @@ public class TutorialManager : MonoBehaviour
     {
         if (MovementPopUp() && index == 0)
         {
-            Execute();
+            ClosePopUp(index);
+            index++;
+            OpenPopUp(index);
         }
         else if (ThrowPopUp() && index == 1)
         {
-            Execute();
+            ClosePopUp(index);
+           
+        }
+        else if (Vector3.Distance(PlayerTransform.position, RockDashTransform.position) <= rockDashRadius && index==1)
+        {
+            index++;
+            OpenPopUp(index);
         }
         else if (DashPopUp() && index == 2)
         {
-            Execute();
+            ClosePopUp(index);
         }
-        else if (index == 3)
-            Destroy(gameObject);
     }
 
     void Execute()
     {
         ClosePopUp(index);
+        if (index >= 3) return;
+
         index++;
         OpenPopUp(index);
     }
 
     void OpenPopUp(int popUpIndex)
     {
+        if (popUpIndex > PopUps.Length - 1) return;
         PopUps[popUpIndex].SetActive(true);
 
         var childrenImageComponents = PopUps[popUpIndex].GetComponentsInChildren<Image>();
@@ -80,7 +93,7 @@ public class TutorialManager : MonoBehaviour
     void ClosePopUp(int popUpIndex)
     {
         var popup = PopUps[popUpIndex];
-        
+
         var childrenImageComponents = popup.GetComponentsInChildren<Image>();
 
         foreach (var image in childrenImageComponents)
@@ -98,8 +111,8 @@ public class TutorialManager : MonoBehaviour
                     }
                 });
         }
-        
-        
+
+
         var imageComponent = popup.GetComponent<Image>();
 
         LeanTween.value(gameObject, opacityValue, 0.0f, animationDuration)

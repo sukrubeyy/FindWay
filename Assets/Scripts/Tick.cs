@@ -8,12 +8,12 @@ public class Tick : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         collision.gameObject.GetComponent<ITicable>()?.Execute();
-        StartCoroutine(WaitAnDo());
+        StartCoroutine(CoroutineSendPool());
+    }
 
-        IEnumerator WaitAnDo()
-        {
-            yield return new WaitForSeconds(0.2f);
-            PoolManager.Instance.SendPool(PoolObjectType.Stone, gameObject);
-        }
+    private IEnumerator CoroutineSendPool()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PoolManager.Instance.SendPool(PoolObjectType.Stone, gameObject);
     }
 }
