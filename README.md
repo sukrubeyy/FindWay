@@ -29,7 +29,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 </code>
 </pre>
     
-<code>' public class PoolManager : Singleton<PoolManager>{} '</code>
+<pre>
+    <code>
+        public class PoolManager : Singleton<PoolManager>
+        {
+            
+        }
+    </code>
+</pre>
 
 <pre>
 <code>
