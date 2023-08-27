@@ -28,17 +28,115 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 }
 </code>
 </pre>
+    
 <pre>
 <code>
     public class PoolManager : Singleton<PoolManager>{}
 </code>
 </pre>
-    <li>
-        <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
+
+<pre>
+<code>
+    PoolManager.Instance.GetPoolObject(PoolObjectType.Stone);
+</code>    
+</pre>  
+
+<li>
+        <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir. Aşağıda State Pattern oluşturup kullanma örneği verilmiştir. Playemode haricinde player controller hareket işlemlerinin çalışmasına izin verilmiyor.
     </li>
-    <li>
+<pre>
+<code>
+            using UnityEngine;
+
+public class StateContext : Singleton<StateContext>
+{
+    [SerializeField] private State _currentState;
+    public State GetCurrentState => _currentState;
+    public void Transition(State state) =>_currentState = state;
+}
+</code>
+</pre>
+
+<pre>
+    <code>
+public class PlayerController : MonoBehaviour
+{
+    private void Start()
+    {
+        StateContext.Instance.Transition(State.Playmode);
+    }
+
+    private void FixedUpdate()
+    {
+        if (StateContext.Instance.GetCurrentState is State.LoseState)
+        {
+            gameManager.LosePanelActive();
+            Destroy(rb);
+        }
+        if (isDashing) return;
+        if (StateContext.Instance.GetCurrentState is not State.Playmode)
+            return;
+
+        rb.MovePosition(transform.position + (transform.forward * input.magnitude) * Time.deltaTime * _speed);
+        
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+            Jump();
+
+        if (transform.position.y < -5f)
+        {
+            StateContext.Instance.Transition(State.LoseState);
+        }
+    }
+}
+    </code>
+</pre>
+<li>
         <strong>Object Pooling</strong>: Nesne havuzlaması, performansı artırmak için sık kullanılan nesneleri önceden oluşturur ve yeniden kullanır. Bu, dinamik nesne oluşturmanın maliyetini azaltır.
     </li>
+    <pre>
+        <code>
+            using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class PoolManager : Singleton<PoolManager>
+{
+    public ObjectOfPool[] objects;
+    
+    private void Awake()
+    {
+        Initialize();
+    }
+    
+    private void Initialize()
+    {
+        for (int i = 0; i < objects.Length; i++)
+        {
+            objects[i].pooledObject = new Queue<GameObject>();
+            for (int j = 0; j < objects[i].count; j++)
+            {
+                GameObject obj = Instantiate(objects[i].objectPrefab,transform);
+                obj.SetActive(false);
+                objects[i].pooledObject.Enqueue(obj);
+            }
+        }
+    }
+
+    public GameObject GetPoolObject(PoolObjectType type)
+    {
+        var foundObject = objects.FirstOrDefault(x => x.type == type).pooledObject.Dequeue();
+        foundObject.SetActive(true);
+        return foundObject;
+    }
+
+    public void SendPool(PoolObjectType type,GameObject poolObj)
+    {
+        poolObj.SetActive(false);
+        objects.FirstOrDefault(x => x.type == type).pooledObject.Enqueue(poolObj);
+    }
+}
+        </code>
+    </pre>
     <li>
         <strong>Firebase Realtime Database</strong>: Firebase veritabanı, oyun içi kullanıcı verilerini depolamak ve senkronize etmek için kullanılır. Oyuncu ilerlemesi, skorlar vb. gibi verileri saklamak için kullanılır.
     </li>
