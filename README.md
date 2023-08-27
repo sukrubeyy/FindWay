@@ -12,16 +12,18 @@
     </li>
    <pre>
 <code>
-// C# kodunuzu buraya ekleyin
-using System;
+using UnityEngine;
 
-namespace HelloWorld
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    class Program
+    private static T _instance;
+    public static T Instance
     {
-        static void Main(string[] args)
+        get
         {
-            Console.WriteLine("Hello, world!");
+            if (_instance is null)
+                _instance = FindAnyObjectByType(typeof(T)) as T;
+            return _instance;
         }
     }
 }
