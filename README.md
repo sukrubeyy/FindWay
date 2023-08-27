@@ -539,14 +539,18 @@ public class UserInformation
        <h3>Tutorial State</h3>
         <ul>
             <li>Movement</li>
+            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/MovementTutoriali.png"/></li>
              <li>Dash</li>
+            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/DashGif.gif"/></li>
              <li>Stone Throw</li>
+            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/ThrowGif.gif"/></li>
              <li>Coyo Jumping</li>
+            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/CoyoJumping.gif"/></li>
         </ul>
        <li>
             <h3>Customization</h3>
            <ul>
-               <li></li>
+               <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/CustomizationGif.gif"/></li>
            </ul>
        </li>
     </li>
