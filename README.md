@@ -8,31 +8,35 @@
 
 <ul>
     <li>
-        <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. 
+        <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. Generic singleton class tanımlama ve kullanım örneği aşağıda yer almaktadır.
     </li>
-   <pre>
+<pre>
 <code>
 using UnityEngine;
-
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
     public static T Instance
     {
-    
         get
         {
             if (_instance is null)
                 _instance = FindAnyObjectByType(typeof(T)) as T;
-                
             return _instance;
         }
     }
 }
 </code>
 </pre>
-    <li>
 
+    <pre>
+    <code>
+    public class PoolManager : Singleton<PoolManager>{
+    
+    }
+    </code>
+    </pre>
+    <li>
 </li>
     <li>
         <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir.
