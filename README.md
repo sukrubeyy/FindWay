@@ -36,7 +36,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 </pre>  
 
 <li>
-        <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir. Aşağıda State Pattern oluşturup kullanma örneği verilmiştir. Playemode haricinde player controller hareket işlemlerinin çalışmasına izin verilmiyor.
+        <strong>State Pattern</strong>: Oyun içi karakter durumlarını yönetmek için durum desenini uygular. Bu, karakter davranışlarını daha yönetilebilir ve genişletilebilir hale getirir. Aşağıda State Pattern oluşturup kullanma örneği verilmiştir. Play mode haricinde player controller hareket işlemlerinin çalışmasına izin verilmiyor.
     </li>
 <pre>
 <code>
@@ -175,7 +175,7 @@ public enum PoolObjectType
     </li>
 <pre>
     <code>
-        using System;
+using System;
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -266,7 +266,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
     </code>
 </pre>
 <p>
-    Firebase Realtime Database'den GetUserInformationFromFirebaseDatabase() methodu içerisinde verilerimizi çekmeye çalışıyoruz. Eğer verimiz varsa deserialize işlemi yapıp DataManager'a bu verileri gönderiyoruz. Eğer Database'de verimiz yok ise tüm veri sınıflarını initialize methodunu çalıştırıp default değerlerine eşitleyip firebase'e gönderiyoruz.
+    Firebase Realtime Database'den GetUserInformationFromFirebaseDatabase() methodu içerisinde verilerimizi çekiyoruz. Eğer verimiz varsa deserialize işlemi yapıp DataManager'a bu verileri gönderiyoruz (Verileri çekip UserInformation sınfıına deserialize edilip DataManager'da bulunan UserInformation değişkenine eşitleniyor). Eğer Database'de verimiz yok ise tüm veri sınıflarını initialize methodunu çalıştırıp default değerlerine eşitleyip firebase'e gönderiyoruz.
 </p>
 <pre>
     <code>
@@ -279,10 +279,10 @@ public class FirebaseManager : Singleton<FirebaseManager>
     </code>
 </pre>
 <p>
-    Proje içerisinde daily bonus sistemi bulunmaktadır. Oyuna ilk girdiğinizde Firebase'e bu veri "yyyy-MM-dd HH:mm:ss" formatında kaydedilir. Ardından oyuna her girişinizde Firebase'den alınan veri UserInformation tipine deserialize edildiğinde TimeSpan sınıfı kullanılarak şimdiki zaman ve kaydedilen zaman arasındaki geçen süre 1 gün ise kullanıcıya daily bonus vermekteyiz. Daily bonus ekranında ise iki butonumuz yer almakta. Claim butonu default 500 coin vermekte eğer altında yer alan Double butonuna tıklarsanız 2x coin almaktasınız. Projeye reklam eklendiğinde Double butonuna reklam atamasası yapabilmek için böyle bir şey yaptım.
+    Proje içerisinde daily bonus sistemi bulunmaktadır. Oyuna ilk girdiğinizde Firebase'e bu veri "yyyy-MM-dd HH:mm:ss" formatında kaydedilir. Ardından oyuna her girişinizde Firebase'den alınan veri UserInformation tipine deserialize edildiğinde TimeSpan sınıfı kullanılarak şimdiki zaman ve kaydedilen zaman arasındaki geçen süre 1 gün ise kullanıcıya daily bonus verilmektedir. Daily bonus ekranında ise iki butonumuz yer almakta. Claim butonu default 500 coin vermekte eğer altında yer alan Double butonuna tıklarsanız 2x coin almaktasınız. Projeye reklam eklendiğinde Double butonuna reklam atamasası yapabilmek için böyle bir şey yaptım.
 </p>
     <li>
-        <strong>JSON Serialize ve Deserialize</strong>: Proje, oyun içi verileri JSON formatında saklamak, okumak ve yazmak için JSON serialize ve deserialize işlemlerini kullanır.
+        <strong>JSON Serialize ve Deserialize</strong>: Proje, oyun içi verileri JSON formatında saklamak, okumak ve yazmak için JSON serialize ve deserialize işlemlerini kullanır. Bu projede JsonUtility kullanıldı fakat sizler projenizde NewtonSoftJson kullanmaya özen gösteriniz.
     </li>
     <p>
     Levels menusunde listelenen level buttonları içerisinde serialize işlemi yapılmakta. Firebase üzerinden almış olduğumuz customization ayarlarını butona tıkladığımızda 'Assets/Customization/CustomizationSettings.json' olarak kayıt edilmekte. Kaydedilen bu json dosyası oyun sahnesine girince player objesine eklenen CharacterCustomization sınıfı içerisinde Deserialize edilmekte ve karakterin renklendirilmesi yapılmaktadır.    
