@@ -21,10 +21,31 @@ public class GameManager : MonoBehaviour
     public Button LoseQuitButton;
         
     private StateContext context;
+
+    public GameObject MainMenu;
+    public Button mainMenuQuit;
+    public Button mainMenuLobbyButton;
+    public Button mainMenuButton;
     private void Start()
     {
         PlayerController controller = FindObjectOfType<PlayerController>();
         context = new StateContext(controller);
+        
+        mainMenuQuit.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
+        
+        mainMenuLobbyButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        });
+        
+        mainMenuButton.onClick.AddListener(() =>
+        {
+            MainMenu.SetActive(!MainMenu.activeSelf);
+        });
+        
         
         WinRetryButton.onClick.AddListener(() => { LoadScene(GetSceneIndex()); });
         WinLobbyButton.onClick.AddListener(() =>

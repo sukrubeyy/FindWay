@@ -10,65 +10,110 @@ public class TutorialManager : MonoBehaviour
     public GameObject[] PopUps;
     private int index = 0;
     public float animationDuration = 1.0f;
-
     public float opacityValue = 1f;
-    
+
     private void Start()
     {
-        OpenPopUp();
+        OpenPopUp(index);
     }
 
     void Update()
     {
         if (MovementPopUp() && index == 0)
         {
-            index++;
-            OpenPopUp();
+            Execute();
         }
         else if (ThrowPopUp() && index == 1)
         {
-            index++;
-            OpenPopUp();
+            Execute();
         }
         else if (DashPopUp() && index == 2)
         {
-            index++;
-            OpenPopUp();
+            Execute();
         }
-        
-        if(index==3)
-            Debug.Log("Destroy Tutorial Manager");
+        else if (index == 3)
+            Destroy(gameObject);
     }
 
-    void OpenPopUp()
+    void Execute()
     {
-        for (int i = 0; i < PopUps.Length; i++)
+        ClosePopUp(index);
+        index++;
+        OpenPopUp(index);
+    }
+
+    void OpenPopUp(int popUpIndex)
+    {
+        PopUps[popUpIndex].SetActive(true);
+
+        var childrenImageComponents = PopUps[popUpIndex].GetComponentsInChildren<Image>();
+        foreach (var childrenImage in childrenImageComponents)
         {
-            if (i == index)
-            {
-                PopUps[i].SetActive(true);
-                
-                //Alpha Animation
-                
-                /*var imageComponent = PopUps[i].GetComponent<Image>();
-                Color startColor = imageComponent.color;
-                startColor.a = 0.0f;
-                imageComponent.color = startColor;
-        
-               
-                LeanTween.value(gameObject, 0.0f, opacityValue, animationDuration)
-                    .setOnUpdate((float value) =>
-                    {
-                        Color newColor = imageComponent.color;
-                        newColor.a = value;
-                        imageComponent.color = newColor;
-                    });*/
-            }
-            else
-            {
-                PopUps[i].SetActive(false);
-            }
+            Color startChilderenColor = childrenImage.color;
+            startChilderenColor.a = 0.0f;
+            childrenImage.color = startChilderenColor;
+
+            LeanTween.value(gameObject, 0.0f, 1, animationDuration)
+                .setOnUpdate((float value) =>
+                {
+                    Color childrensNewColor = childrenImage.color;
+                    childrensNewColor.a = value;
+                    childrenImage.color = childrensNewColor;
+                });
         }
+
+        var imageComponent = PopUps[popUpIndex].GetComponent<Image>();
+        Color startColor = imageComponent.color;
+        startColor.a = 0.0f;
+        imageComponent.color = startColor;
+
+
+        LeanTween.value(gameObject, 0.0f, opacityValue, animationDuration)
+            .setOnUpdate((float value) =>
+            {
+                Color newColor = imageComponent.color;
+                newColor.a = value;
+                imageComponent.color = newColor;
+            });
+    }
+
+    void ClosePopUp(int popUpIndex)
+    {
+        var popup = PopUps[popUpIndex];
+        
+        var childrenImageComponents = popup.GetComponentsInChildren<Image>();
+
+        foreach (var image in childrenImageComponents)
+        {
+            LeanTween.value(gameObject, 1, 0.0f, animationDuration)
+                .setOnUpdate((float value) =>
+                {
+                    Color newColor = image.color;
+                    newColor.a = value;
+                    image.color = newColor;
+
+                    if (value <= 0.0f)
+                    {
+                        popup.SetActive(false);
+                    }
+                });
+        }
+        
+        
+        var imageComponent = popup.GetComponent<Image>();
+
+        LeanTween.value(gameObject, opacityValue, 0.0f, animationDuration)
+            .setOnUpdate((float value) =>
+            {
+                Color newColor = imageComponent.color;
+                newColor.a = value;
+                imageComponent.color = newColor;
+
+                if (value <= 0.0f)
+                {
+                    popup.SetActive(false);
+                }
+            });
     }
 
     private bool DashPopUp()
