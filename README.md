@@ -538,19 +538,20 @@ public class UserInformation
     <li>
        <h3>Tutorial State</h3>
         <ul>
-            <li>Movement</li>
-            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/MovementTutoriali.png"/></li>
+             <li>Movement</li>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/MovementTutorial.png"/>
              <li>Dash</li>
-            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/DashGif.gif"/></li>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/DashGif.gif"/>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/DashTutorial.png"/>
              <li>Stone Throw</li>
-            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/ThrowGif.gif"/></li>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/ThrowGif.gif"/>
              <li>Coyo Jumping</li>
-            <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/CoyoJumping.gif"/></li>
+             <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/CoyoJumping.gif"/>
         </ul>
        <li>
             <h3>Customization</h3>
            <ul>
-               <li><img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/CustomizationGif.gif"/></li>
+               <img src="https://github.com/sukrubeyy/FindWay/blob/main/Assets/Images/CustomizationGif.gif"/>
            </ul>
        </li>
     </li>
