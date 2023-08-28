@@ -3,12 +3,9 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 public class FirebaseManager : Singleton<FirebaseManager>
 {
     private DatabaseReference reference;
-
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
@@ -39,11 +36,9 @@ public class FirebaseManager : Singleton<FirebaseManager>
                     var cloudData = JsonUtility.FromJson<UserInformation>(json);
                     if (cloudData is not null)
                     {
-                        Debug.LogWarning("Firebase User Data Not Null");
                         DataManager.Instance.userInformation = cloudData;
                         MenuManager.Instance.IntializeElementsOfUI();
                         CustomizationObject.Instance.Initialize();
-
                         try
                         {
                             DataManager.Instance.InstanceOnDailyBonusEvent(cloudData.GetLastLoginDate);
@@ -56,7 +51,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
                     }
                     else
                     {
-                        Debug.LogWarning("Firebase User Data Null");
                         DataManager.Instance.userInformation.Initialize();
                         CustomizationObject.Instance.Initialize();
 
@@ -65,6 +59,7 @@ public class FirebaseManager : Singleton<FirebaseManager>
                 }
             });
     }
+
 
     public void Reset()
     {
@@ -75,7 +70,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
     public void DeleteData()
     {
         reference.Child("Users").Child(DataManager.Instance.userInformation.GetUserId).RemoveValueAsync();
-        Debug.LogWarning("User Data Delete From Cloud");
         DataManager.Instance.userInformation.SetUserID();
         DataManager.Instance.userInformation.Initialize();
         MenuManager.Instance.IntializeElementsOfUI();
@@ -86,6 +80,5 @@ public class FirebaseManager : Singleton<FirebaseManager>
         reference.Child("Users").Child(DataManager.Instance.userInformation.GetUserId).SetRawJsonValueAsync(JsonUtility.ToJson(DataManager.Instance.userInformation));
         GetUserInformationFromFirebaseDatabase();
         MenuManager.Instance.IntializeElementsOfUI();
-        Debug.Log("SAVED");
     }
 }

@@ -1,15 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class StateContext : MonoBehaviour
+public class StateContext : Singleton<StateContext>
 {
-    private readonly PlayerController Controller;
-    private State _currentState;
+    [SerializeField] private State _currentState;
     public State GetCurrentState => _currentState;
-
-    public StateContext(PlayerController _controller)
-    {
-        Controller = _controller;
-    }
 
     public void Transition(State state)
     {

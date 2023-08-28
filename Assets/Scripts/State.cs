@@ -3,5 +3,6 @@
     None,
     Playmode,
     WinState,
-    LoseState
+    LoseState,
+    GameMainMenuState,
 }

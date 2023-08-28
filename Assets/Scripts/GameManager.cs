@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     [Header("Menus")] public GameObject WinPanel;
     public GameObject LosePanel;
@@ -19,34 +15,26 @@ public class GameManager : MonoBehaviour
     public Button LoseRetryButton;
     public Button LoseLobbyButton;
     public Button LoseQuitButton;
-        
-    private StateContext context;
 
     public GameObject MainMenu;
     public Button mainMenuQuit;
     public Button mainMenuLobbyButton;
     public Button mainMenuButton;
+
     private void Start()
     {
-        PlayerController controller = FindObjectOfType<PlayerController>();
-        context = new StateContext(controller);
-        
-        mainMenuQuit.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
-        
-        mainMenuLobbyButton.onClick.AddListener(() =>
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        });
-        
+        mainMenuQuit.onClick.AddListener(() => { Application.Quit(); });
+
+        mainMenuLobbyButton.onClick.AddListener(() => { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); });
+
         mainMenuButton.onClick.AddListener(() =>
         {
             MainMenu.SetActive(!MainMenu.activeSelf);
+            var cacheState = MainMenu.activeSelf ? State.GameMainMenuState : State.Playmode;
+            StateContext.Instance.Transition(cacheState);
         });
-        
-        
+
+
         WinRetryButton.onClick.AddListener(() => { LoadScene(GetSceneIndex()); });
         WinLobbyButton.onClick.AddListener(() =>
         {
@@ -54,29 +42,29 @@ public class GameManager : MonoBehaviour
             LoadScene(0);
         });
         WinQuitButton.onClick.AddListener(() => { Application.Quit(); });
-        WinNextLevelyButton.onClick.AddListener(() =>
-        {
-            if (GetSceneIndex() + 1 < 5)
-                LoadScene(GetSceneIndex() + 1);
-        });
+        WinNextLevelyButton.interactable = false;
+        WinNextLevelyButton.onClick.AddListener(() => { LoadScene(GetSceneIndex() + 1); });
 
 
-        LoseRetryButton.onClick.AddListener(() =>
-        {
-            LoadScene(GetSceneIndex());
-        });
+        LoseRetryButton.onClick.AddListener(() => { LoadScene(GetSceneIndex()); });
         LoseLobbyButton.onClick.AddListener(() =>
         {
             //0 == MainMenuScene
             LoadScene(0);
         });
-        LoseQuitButton.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
+        LoseQuitButton.onClick.AddListener(() => { Application.Quit(); });
     }
 
-   
+    private void Update()
+    {
+        //For win state and lose state
+        if (StateContext.Instance.GetCurrentState is  State.WinState || StateContext.Instance.GetCurrentState is State.LoseState)
+        {
+            mainMenuButton.gameObject.SetActive(false);
+            MainMenu.SetActive(false);
+        }
+    }
+
 
     private int GetSceneIndex()
     {
@@ -89,6 +77,7 @@ public class GameManager : MonoBehaviour
     {
         WinPanel.SetActive(true);
     }
+
     public void LosePanelActive()
     {
         LosePanel.SetActive(true);

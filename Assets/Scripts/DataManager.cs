@@ -46,6 +46,5 @@ public class DataManager : Singleton<DataManager>
         FirebaseManager.Instance.Save();
     }
 
-
     public void SetCoinCount(int value) => userInformation.SetCoin(value);
 }

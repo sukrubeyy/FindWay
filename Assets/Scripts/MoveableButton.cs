@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Pick : MonoBehaviour, ITicable
+public class MoveableButton : MonoBehaviour, IMovable
 {
     [SerializeField] private GameObject targetObject;
     public Vector3 targetPos;

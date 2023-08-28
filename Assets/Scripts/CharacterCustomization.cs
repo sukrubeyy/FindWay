@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
 using File = System.IO.File;
 
 public class CharacterCustomization : MonoBehaviour

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tick : MonoBehaviour
+public class Stone : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
-        collision.gameObject.GetComponent<ITicable>()?.Execute();
+        collision.gameObject.GetComponent<IMovable>()?.Execute();
         StartCoroutine(CoroutineSendPool());
     }
 

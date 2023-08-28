@@ -10,7 +10,8 @@ using UnityEngine.UI;
 
 public class MenuManager : Singleton<MenuManager>
 {
-    [Header("Menus")] [SerializeField] private GameObject LevelsMenu;
+    [Header("Menus")] 
+    [SerializeField] private GameObject LevelsMenu;
     [SerializeField] private GameObject HomeMenu;
     [SerializeField] private GameObject AccountMenu;
     [SerializeField] private GameObject SettingsMenu;
@@ -24,9 +25,8 @@ public class MenuManager : Singleton<MenuManager>
     public GameObject SceneLoadingMenu;
     public Slider loadingBar;
 
-    [Header("Menu Buttons")] [SerializeField]
-    private Button LevelsMenuButton;
-
+    [Header("Menu Buttons")] 
+    [SerializeField] private Button LevelsMenuButton;
     [SerializeField] private Button claimbCoinButton;
     [SerializeField] private Button rewardedCoinButton;
     [SerializeField] private Button HomeMenuuButton;
@@ -51,7 +51,6 @@ public class MenuManager : Singleton<MenuManager>
 
 
     public LayerMask layerMask;
-
     public Button eyesButton;
     public GameObject eyesColorPallete;
     public Button bodyButton;
@@ -66,14 +65,26 @@ public class MenuManager : Singleton<MenuManager>
 
         ListLevel();
 
-        eyesButton.onClick.AddListener(() => { eyesColorPallete.SetActive(!eyesColorPallete.activeSelf); });
+        eyesButton.onClick.AddListener(() =>
+        {
+            eyesColorPallete.SetActive(!eyesColorPallete.activeSelf);
+        });
 
-        bodyButton.onClick.AddListener(() => { bodyColorPallete.SetActive(!bodyColorPallete.activeSelf); });
+        bodyButton.onClick.AddListener(() =>
+        {
+            bodyColorPallete.SetActive(!bodyColorPallete.activeSelf);
+        });
 
-        armsButton.onClick.AddListener(() => { armsColorPallete.SetActive(!armsColorPallete.activeSelf); });
+        armsButton.onClick.AddListener(() =>
+        {
+            armsColorPallete.SetActive(!armsColorPallete.activeSelf);
+        });
 
 
-        SaveButton.onClick.AddListener(() => { FirebaseManager.Instance.Save(); });
+        SaveButton.onClick.AddListener(() =>
+        {
+            FirebaseManager.Instance.Save();
+        });
 
         volumeSlider.onValueChanged.AddListener((sliderValue) => { DataManager.Instance.userInformation.SetVolume(sliderValue); });
 
@@ -91,8 +102,6 @@ public class MenuManager : Singleton<MenuManager>
 
         ResetAllDataButton.onClick.AddListener(() =>
         {
-            // DataManager.Instance.ResetPlayerData();
-            // iconText.text = DataManager.Instance.userInformation.GetCoinCount.ToString();
             FirebaseManager.Instance.Reset();
             ListLevel();
         });
@@ -161,7 +170,7 @@ public class MenuManager : Singleton<MenuManager>
             
                     float rotationSpeed = 1.0f; // Döndürme hızını ayarlayabilirsiniz
                     Quaternion targetRotation = Quaternion.LookRotation(directionToMouse) * Quaternion.Euler(0, 0, 0);
-            
+
                     hit.transform.rotation = Quaternion.Slerp(hit.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
             }
@@ -192,7 +201,6 @@ public class MenuManager : Singleton<MenuManager>
     public void GetDailyBonus(int coinValue = 500)
     {
         isDailyBonus = false;
-        //DataManager.Instance.userInformation.SetDailyBonusPossible(false);
         int value = int.Parse(iconText.text);
 
         value += coinValue;

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,11 +5,10 @@ using UnityEngine;
 public class PoolManager : Singleton<PoolManager>
 {
     public ObjectOfPool[] objects;
-    private void Awake()
+    private void Start()
     {
         Initialize();
     }
-
     private void Initialize()
     {
         for (int i = 0; i < objects.Length; i++)
@@ -33,24 +30,9 @@ public class PoolManager : Singleton<PoolManager>
         return foundObject;
     }
 
-
     public void SendPool(PoolObjectType type,GameObject poolObj)
     {
         poolObj.SetActive(false);
         objects.FirstOrDefault(x => x.type == type).pooledObject.Enqueue(poolObj);
     }
-}
-
-[Serializable]
-public struct ObjectOfPool
-{
-    public int count;
-    public Queue<GameObject> pooledObject;
-    public PoolObjectType type;
-    public GameObject objectPrefab;
-}
-
-public enum PoolObjectType
-{
-    Stone
 }
