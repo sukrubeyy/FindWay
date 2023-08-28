@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     {
         if (StateContext.Instance.GetCurrentState is State.LoseState)
         {
-            gameManager.LosePanelActive();
+            GameManager.Instance.LosePanelActive();
             Destroy(rb);
         }
         if (isDashing) return;
@@ -207,7 +207,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
             }
         });
     }
-
     public void GetUserInformationFromFirebaseDatabase()
     {
         FirebaseDatabase.DefaultInstance
@@ -230,7 +229,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
                         DataManager.Instance.userInformation = cloudData;
                         MenuManager.Instance.IntializeElementsOfUI();
                         CustomizationObject.Instance.Initialize();
-
                         try
                         {
                             DataManager.Instance.InstanceOnDailyBonusEvent(cloudData.GetLastLoginDate);
@@ -246,14 +244,11 @@ public class FirebaseManager : Singleton<FirebaseManager>
                         Debug.LogWarning("Firebase User Data Null");
                         DataManager.Instance.userInformation.Initialize();
                         CustomizationObject.Instance.Initialize();
-
                         Save();
                     }
                 }
             });
     }
-
-
     public void Reset()
     {
         DeleteData();
@@ -268,7 +263,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
         DataManager.Instance.userInformation.Initialize();
         MenuManager.Instance.IntializeElementsOfUI();
     }
-
     public void Save()
     {
         reference.Child("Users").Child(DataManager.Instance.userInformation.GetUserId).SetRawJsonValueAsync(JsonUtility.ToJson(DataManager.Instance.userInformation));
@@ -308,12 +302,7 @@ public class LevelButton : MonoBehaviour
     [SerializeField] private Text text;
     [SerializeField] private Button button;
     private int SceneIndex;
-    private MenuManager _menuManager;
-    private void Start()
-    {
-        _menuManager = FindObjectOfType<MenuManager>();
-    }
-
+    
     public void Initialize(int sceneIndex)
     {
         SceneIndex = sceneIndex;
@@ -325,7 +314,7 @@ public class LevelButton : MonoBehaviour
                 {
                     string json = JsonUtility.ToJson(DataManager.Instance.userInformation.GetCustomizationSettings);
                     System.IO.File.WriteAllText(PathHelper.Path.CustomizationFolderPath+PathHelper.FileName.CustomizationJsonName,json);
-                    _menuManager.SceneLoadingMenu.SetActive(true);
+                    MenuManager.Instance.SceneLoadingMenu.SetActive(true);
                     StartCoroutine(LoadLevel(SceneIndex));
                 }
         });
@@ -579,7 +568,7 @@ public class MoveableButton : MonoBehaviour, IMovable
 </p>
 <pre>
     <code>
-        public class Stone : MonoBehaviour
+public class Stone : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {
@@ -596,7 +585,7 @@ public class MoveableButton : MonoBehaviour, IMovable
     </code>
     <pre>
     <p>
-    <b>IFracturable</> dash atarak çarptığımız objenin fırlamasını sağlayan interface'dir. Execute methodu transform bulundurmaktadır, bu parametrede karakterin direction forward bilgisini gönderip bu  bilgi doğrultusunda objeyi fırlatıyoruz.
+    <b>IFracturable</b> dash atarak çarptığımız objenin fırlamasını sağlayan interface'dir. Execute methodu transform bulundurmaktadır, bu parametrede karakterin direction forward bilgisini gönderip bu  bilgi doğrultusunda objeyi fırlatıyoruz.
     </p>
     
 <pre>
