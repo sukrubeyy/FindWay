@@ -1,4 +1,4 @@
-﻿public interface ITicable
+﻿public interface IMovable
 {
     public void Execute();
 }

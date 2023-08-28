@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoolManager : Singleton<PoolManager>
 {
     public ObjectOfPool[] objects;
-    private void Awake()
+    private void Start()
     {
         Initialize();
     }

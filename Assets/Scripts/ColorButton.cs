@@ -7,7 +7,6 @@ public class ColorButton : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private Image image;
     [SerializeField] private CustomizationButtonType type; 
-   
     void Start()
     {
         image.color=color;

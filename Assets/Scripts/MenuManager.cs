@@ -170,7 +170,7 @@ public class MenuManager : Singleton<MenuManager>
             
                     float rotationSpeed = 1.0f; // Döndürme hızını ayarlayabilirsiniz
                     Quaternion targetRotation = Quaternion.LookRotation(directionToMouse) * Quaternion.Euler(0, 0, 0);
-            
+
                     hit.transform.rotation = Quaternion.Slerp(hit.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
             }

@@ -146,7 +146,7 @@ public class TutorialManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100))
         {
-            if (hit.collider.GetComponent<ITicable>() != null)
+            if (hit.collider.GetComponent<IMovable>() != null)
             {
                 return true;
             }

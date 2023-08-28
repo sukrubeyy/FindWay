@@ -20,13 +20,8 @@ public class PlayerController : MonoBehaviour
     private float dashTime = 0.2f;
     private float dashCoolDown = 1f;
 
-    public AudioManager _audioManager;
-    public PoolManager poolManager;
-    public GameManager gameManager;
-    
     private float FireRate= 1.0f;
     private float nextFire = default;
-    
         
     private void Start()
     {
@@ -37,8 +32,8 @@ public class PlayerController : MonoBehaviour
     {
         if (StateContext.Instance.GetCurrentState is State.LoseState)
         {
-            gameManager.LosePanelActive();
-            Destroy(rb);
+            GameManager.Instance.LosePanelActive();
+            //Destroy(rb);
         }
         if (isDashing) return;
         if (StateContext.Instance.GetCurrentState is not State.Playmode)
@@ -71,7 +66,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.point != null)
                 {
-                    if (hit.collider.GetComponent<ITicable>() != null)
+                    if (hit.collider.GetComponent<IMovable>() != null)
                     {
                         if (Time.time > nextFire)
                         {
@@ -95,12 +90,12 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-        _audioManager.ExecuteClip(AudioClipType.Jump2);
+        AudioManager.Instance.ExecuteClip(AudioClipType.Jump2);
     }
 
     void ThrowStone(Vector3 throwPoint)
     {
-        GameObject stone = poolManager.GetPoolObject(PoolObjectType.Stone);
+        GameObject stone = PoolManager.Instance.GetPoolObject(PoolObjectType.Stone);
         stone.transform.position = transform.position + Vector3.one;
         stone.transform.rotation = transform.rotation;
         Rigidbody stoneRb = stone.GetComponent<Rigidbody>();
@@ -147,7 +142,7 @@ public class PlayerController : MonoBehaviour
         isDashing = true;
         rb.velocity = transform.forward * dashingPower;
         rb.velocity = rb.velocity.magnitude > maxDashPower ? rb.velocity.normalized * maxDashPower : rb.velocity;
-        _audioManager.ExecuteClip(AudioClipType.Dash);
+        AudioManager.Instance.ExecuteClip(AudioClipType.Dash);
         yield return new WaitForSeconds(dashTime);
         isDashing = false;
         yield return new WaitForSeconds(dashCoolDown);

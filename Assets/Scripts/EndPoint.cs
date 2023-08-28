@@ -11,7 +11,6 @@ public class EndPoint : MonoBehaviour
     public Color radiusColor;
     [SerializeField] private Transform target;
     [SerializeField] private bool isFinish=false;
-    public GameManager gameManager;
  
 
     private void OnDrawGizmos()
@@ -35,6 +34,6 @@ public class EndPoint : MonoBehaviour
     {
         StateContext.Instance.Transition(State.WinState);
         isFinish = true;
-        gameManager.FinishSuccess();
+        GameManager.Instance.FinishSuccess();
     }
 }

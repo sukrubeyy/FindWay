@@ -36,11 +36,9 @@ public class FirebaseManager : Singleton<FirebaseManager>
                     var cloudData = JsonUtility.FromJson<UserInformation>(json);
                     if (cloudData is not null)
                     {
-                        Debug.LogWarning("Firebase User Data Not Null");
                         DataManager.Instance.userInformation = cloudData;
                         MenuManager.Instance.IntializeElementsOfUI();
                         CustomizationObject.Instance.Initialize();
-
                         try
                         {
                             DataManager.Instance.InstanceOnDailyBonusEvent(cloudData.GetLastLoginDate);
@@ -53,7 +51,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
                     }
                     else
                     {
-                        Debug.LogWarning("Firebase User Data Null");
                         DataManager.Instance.userInformation.Initialize();
                         CustomizationObject.Instance.Initialize();
 
@@ -73,7 +70,6 @@ public class FirebaseManager : Singleton<FirebaseManager>
     public void DeleteData()
     {
         reference.Child("Users").Child(DataManager.Instance.userInformation.GetUserId).RemoveValueAsync();
-        Debug.LogWarning("User Data Delete From Cloud");
         DataManager.Instance.userInformation.SetUserID();
         DataManager.Instance.userInformation.Initialize();
         MenuManager.Instance.IntializeElementsOfUI();
