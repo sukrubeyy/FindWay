@@ -17,16 +17,24 @@
     </li>
 <pre>
 <code>
-using UnityEngine;
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public class Singleton<T> : MonoBehaviour where T : Component
 {
     private static T _instance;
-    public static T Instance
-    {
-        get
-        {
-            if (_instance is null)
-                _instance = FindAnyObjectByType(typeof(T)) as T;
+    public static T Instance {
+        get {
+            if (_instance == null) {
+                var objs = FindObjectsOfType (typeof(T)) as T[];
+                if (objs.Length > 0)
+                    _instance = objs[0];
+                if (objs.Length > 1) {
+                    Debug.LogError ("There is more than one " + typeof(T).Name + " in the scene.");
+                }
+                if (_instance == null) {
+                    GameObject obj = new GameObject ();
+                    obj.hideFlags = HideFlags.HideAndDontSave;
+                    _instance = obj.AddComponent<T> ();
+                }
+            }
             return _instance;
         }
     }
@@ -531,6 +539,94 @@ public class UserInformation
     public void SetArmsColor(Color32 value)
     {
         _customizationSettings.SetArmsColor(value);
+    }
+}
+    </code>
+</pre>
+
+<li>
+    <strong>Interfaces</strong>: IMovable ve IFracturable adında iki tane interface bulunmakta. 
+</li>
+
+<p>
+    <b>IMovable</b> taşların atılabileceği objelerde bulunmakta örneğin buton tarzı gibi bişey düşünebilirsiniz. MovableButton sınıfı ise bu interface'den kalıtım almakta. Target obje ve pozisyon bilgilerine göre execute methodu tetiklendiğinde obje hedef pozisyonuna gönderilmektedir.
+</p>
+
+<pre>
+    <code>
+public interface IMovable
+{
+    public void Execute();
+}
+    </code>
+</pre>
+
+<pre>
+    <code>
+public class MoveableButton : MonoBehaviour, IMovable
+{
+    [SerializeField] private GameObject targetObject;
+    public Vector3 targetPos;
+    public void Execute()
+    {
+        LeanTween.move(targetObject,targetPos,1.5f);
+    }
+}
+    </code>
+</pre>
+<p>
+    Aşağıda Stone prefabının scripti bulunmakta. Stone objesinin temas ettiği obje IMovable interface barındırıyorsa execute methodu çalıştırılmakta.
+</p>
+<pre>
+    <code>
+        public class Stone : MonoBehaviour
+{
+    private void OnCollisionEnter(Collision collision)
+    {
+        collision.gameObject.GetComponent<IMovable>()?.Execute();
+        StartCoroutine(CoroutineSendPool());
+    }
+
+    private IEnumerator CoroutineSendPool()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PoolManager.Instance.SendPool(PoolObjectType.Stone, gameObject);
+    }
+}
+    </code>
+    <pre>
+    <p>
+    <b>IFracturable</> dash atarak çarptığımız objenin fırlamasını sağlayan interface'dir. Execute methodu transform bulundurmaktadır, bu parametrede karakterin direction forward bilgisini gönderip bu  bilgi doğrultusunda objeyi fırlatıyoruz.
+    </p>
+    
+<pre>
+    <code>
+    public interface IFracturable
+    {
+        public void ExecuteFracture(Transform direction);
+    }
+    </code>
+</pre>
+
+<pre>
+    <code>
+public class Fracture : MonoBehaviour, IFracturable
+{
+    private float throwForce = 30f;
+    private Rigidbody rb;
+    public void ExecuteFracture(Transform direction)
+    {
+        if (rb is null)
+            rb = gameObject.AddComponent<Rigidbody>();
+        
+        rb.AddForce(direction.forward * throwForce, ForceMode.Impulse);
+        StartCoroutine(RemoveRigidbody());
+        IEnumerator RemoveRigidbody()
+        {
+            yield return new WaitForSeconds(2f);
+            GetComponent<BoxCollider>().isTrigger = true;
+            Destroy(rb);
+        }
     }
 }
     </code>
