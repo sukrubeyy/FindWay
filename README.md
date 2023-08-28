@@ -583,6 +583,7 @@ public class Stone : MonoBehaviour
     }
 }
     </code>
+    </pre>
     <p>
     <b>IFracturable</b> dash atarak çarptığımız objenin fırlamasını sağlayan interface'dir. Execute methodu transform bulundurmaktadır, bu parametrede karakterin direction forward bilgisini gönderip bu  bilgi doğrultusunda objeyi fırlatıyoruz.
     </p>
