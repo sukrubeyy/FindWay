@@ -661,18 +661,18 @@ public class Fracture : MonoBehaviour, IFracturable
     Eğer bu projeye katkıda bulunmak isterseniz, aşağıdaki adımları izleyebilirsiniz:
 </p>
 
-<b>Eklenebilecek Örnek Özellikler</b>
-<ol>
-    <li>Admob Reklamları</li>
-    <li>Firebase Notification & Analytics</li>
-    <li>EndPoint ve MovableButton İçin Shader Duzenlemeleri</li>
-</ol>
-
 <ol>
     <li>Bu repo'yu forklayın.</li>
     <li>Yeni bir feature branch oluşturun: <code>git checkout -b yeni-özellik</code></li>
     <li>Yaptığınız değişiklikleri commitleyin: <code>git commit -am 'Yeni özellik: Açıklama'</code></li>
     <li>Branch'inizi uzak sunucuya pushlayın: <code>git push origin yeni-özellik</code></li>
     <li>Pull request oluşturun ve değişikliklerinizi açıklayın.</li>
+</ol>
+
+<b>Eklenebilecek Örnek Özellikler</b>
+<ol type="A">
+    <li>Admob Reklamları</li>
+    <li>Firebase Notification & Analytics</li>
+    <li>EndPoint ve MovableButton İçin Shader Duzenlemeleri</li>
 </ol>
 
