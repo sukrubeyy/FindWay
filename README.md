@@ -7,6 +7,11 @@
 </p>
 
 <ul>
+    <li><a href="https://firebase.google.com">Install Firebase Realtime Database</li>
+    <li><a href="https://firebase.google.com/docs/unity/setup?hl=tr">Install Firebase SDK</li>
+</ul>
+
+<ul>
     <li>
         <strong>Generic Singleton</strong>: Proje, singleton tasarım desenini kullanarak tek bir örnek üzerinden erişilebilen yöneticileri içerir. Bu, nesneleri verimli bir şekilde yönetmek için kullanılır. Generic singleton class tanımlama ve kullanım örneği aşağıda yer almaktadır.
     </li>
