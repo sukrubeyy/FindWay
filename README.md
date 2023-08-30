@@ -1,4 +1,4 @@
-<h1>🌟 FindWay 🌟 </h1>
+<h1>🌟 FindWay 🌟 </h1> 
 
 <h2>🚀 Proje Tanıtımı</h2>
 
